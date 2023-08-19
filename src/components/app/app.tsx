@@ -5,6 +5,7 @@ import FavouritesPage from '../../pages/favourites-page/favourites-page';
 import OfferPage from '../../pages/offer-page/offer-page';
 import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
+import RedirectToMainPage from '../redirect-to-main-page/redirect-to-main-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
 
 
@@ -23,7 +24,11 @@ function App({ placesCount }: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.LoginPage}
-          element={<LoginPage />}
+          element={
+            <RedirectToMainPage authorizationStatus={AuthorizationStatus.NoAuth}>
+              <LoginPage />
+            </RedirectToMainPage>
+          }
         />
         <Route
           path={AppRoute.FavouritesPage}
