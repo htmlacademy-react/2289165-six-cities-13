@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 
 function NotFoundPage(): JSX.Element {
   return (
@@ -35,17 +36,17 @@ function NotFoundPage(): JSX.Element {
         <div className="page__not-found-page-container container">
           <section>
             <h1 className="visually-hidden">Empty page</h1>
-            <div className="favorites__status-wrapper">
-              <b className="favorites__status">404 NOT FOUND</b>
-              <p className="favorites__status-description"><a href="">Вернуться на главную страницу</a></p>
-            </div>
+            <Link to="/">
+              <div className="favorites__status-wrapper">
+                <b className="favorites__status">404 NOT FOUND</b>
+                <p className="favorites__status-description"> <u>Return to main page</u></p>
+              </div>
+            </Link>
           </section>
         </div>
       </main>
       <footer className="footer">
-        <a className="footer__logo-link" href="main.html">
-          <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
-        </a>
+        <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
       </footer>
     </body>
   );
