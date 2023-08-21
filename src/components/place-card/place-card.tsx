@@ -4,6 +4,7 @@ import { getBigFirstLetter, roundRating } from '../../utils';
 
 
 export type PlaceCardProps = OfferPreview & {
+  cardClass: string;
   cardMouseEnterHandle?: (id: OfferPreview['id']) => void;
   cardMouseLeaveHandle?: () => void;
 }
@@ -18,6 +19,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
     rating,
     id,
     isPremium,
+    cardClass,
     cardMouseEnterHandle,
     cardMouseLeaveHandle
   } = props;
@@ -26,7 +28,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
 
   return (
     <article
-      className='cities__card place-card'
+      className={`${cardClass}__card card place-card`}
       onMouseEnter={() => cardMouseEnterHandle?.(id)}
       onMouseLeave={() => cardMouseLeaveHandle?.()}
     >
@@ -34,13 +36,13 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
         <div className='place-card__mark'>
           <span>Premium</span>
         </div>}
-      <div className='cities__image-wrapper place-card__image-wrapper'>
+      <div className={`${cardClass}__image-wrapper place-card__image-wrapper`}>
         <Link to={pathCard}>
           <img
             className='place-card__image'
             src={previewImage}
-            width='260'
-            height='200'
+            width={cardClass === 'cities' ? 260 : 150}
+            height={cardClass === 'cities' ? 200 : 110}
             alt='Place image'
           />
         </Link>
@@ -65,8 +67,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
           >
             <svg
               className='place-card__bookmark-icon'
-              width='18'
-              height='19'
+              width={18}
+              height={19}
             >
               <use xlinkHref='#icon-bookmark'></use>
             </svg>

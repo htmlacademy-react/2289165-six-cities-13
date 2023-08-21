@@ -144,8 +144,8 @@ const OfferPageData: OfferFull[] = [
       'Dishwasher'
     ],
     'host': {
-      'isPro': true,
-      'name': 'Angelina',
+      'isPro': false,
+      'name': 'Angel',
       'avatarUrl': 'https://13.design.pages.academy/static/host/avatar-angelina.jpg'
     },
     'images': [
