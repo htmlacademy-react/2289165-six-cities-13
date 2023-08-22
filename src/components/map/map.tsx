@@ -1,18 +1,19 @@
 import { layerGroup, Marker, Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useRef, useEffect } from 'react';
-import { City, OfferPreview } from '../../mocks/offers';
+import { Location, OfferPreview } from '../../mocks/offers';
 import useMap from './use-map';
 
 type MapProps = {
-  city: City;
+  location: Location;
   offers: OfferPreview[];
   selectedOfferId: OfferPreview['id'];
+  isMainScreen: boolean;
 };
 
-function Map({ city, offers, selectedOfferId }: MapProps): JSX.Element {
+function Map({ location, offers, selectedOfferId, isMainScreen }: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap(mapRef, location, isMainScreen);
 
   const defaultCustomIcon = new Icon({
     iconUrl: 'img/pin.svg',
@@ -52,7 +53,7 @@ function Map({ city, offers, selectedOfferId }: MapProps): JSX.Element {
   return (
     <div
       ref={mapRef}
-      style={{height: '100vh'}}
+      style={{ height: '100%' }}
     >
     </div>
   );
