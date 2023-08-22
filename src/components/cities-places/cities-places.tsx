@@ -1,28 +1,32 @@
 import { OfferPreview } from '../../mocks/offers.ts';
 import OfferList from '../offer-list/offer-list.tsx';
 import Map from '../../components/map/map';
-import {useState} from 'react';
+import { useState } from 'react';
 import { getEnding } from '../../utils.ts';
 
 type CitiesPLacesProps = {
   offers: OfferPreview[];
+  selectedCityByName: string;
 };
 
-function CitiesPlaces({ offers }: CitiesPLacesProps): JSX.Element {
+
+function CitiesPlaces({ offers, selectedCityByName }: CitiesPLacesProps): JSX.Element {
   const offersCount = offers.length;
   const [selectedOfferId, setSelectedOfferId] = useState<OfferPreview['id']>('');
+  // const [selectedCity, setSelectedCity] = useState<OfferPreview['city']>(offers[0].city);
 
   const cardMouseEnterHandle = (id: OfferPreview['id']) => setSelectedOfferId(id);
   const cardMouseLeaveHandle = () => setSelectedOfferId('');
 
   if (offersCount > 1) {
-    //выбрать город
-    const selectedCity = offers[0].city;
+    // const selectedOffer = offers.find((offer) => offer.city.name === selectedCityByName);
+    // console.log(selectedOffer);
+
     return (
       <div className='cities__places-container container'>
         <section className='cities__places places'>
           <h2 className='visually-hidden'>Places</h2>
-          <b className='places__found'>{offersCount} place{getEnding(offersCount)} to stay in Amsterdam</b>
+          <b className='places__found'>{offersCount} place{getEnding(offersCount)} to stay in {selectedCityByName}</b>
           <form className='places__sorting' action='#' method='get'>
             <span className='places__sorting-caption'>Sort by</span>
             <span className='places__sorting-type' tabIndex={0}>
@@ -44,7 +48,17 @@ function CitiesPlaces({ offers }: CitiesPLacesProps): JSX.Element {
         </section>
         <div className='cities__right-section'>
           <section className='cities__map map'>
-            <Map city={selectedCity} offers={offers} selectedOfferId={selectedOfferId} />
+            {/* <Map city={selectedCity.city} offers={offers} selectedOfferId={selectedOfferId} /> */}
+            <Map city={{
+              'name': 'Amsterdam',
+              'location': {
+                'latitude': 52.35514938496378,
+                'longitude': 4.673877537499948,
+                'zoom': 10
+              }
+            }} offers={offers} selectedOfferId={selectedOfferId}
+            />
+
           </section>
         </div>
       </div>
