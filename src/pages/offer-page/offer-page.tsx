@@ -1,8 +1,9 @@
 import { ReviewForm } from '../../components/review-form/review-form';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { OfferFull } from '../../mocks/offers';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { roundRating, getBigFirstLetter, getEnding } from '../../utils';
+import Header from '../../components/header/header';
 
 type PageParams = {
   id: string;
@@ -19,7 +20,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element {
   const offerPage = offers.find((offer) => offer.id === id);
 
   if (!offerPage) {
-    return <Navigate to={AppRoute.MainPage} />;
+    return <Navigate to={AppRoute.MainPage} replace />;
   }
 
   const {
@@ -70,38 +71,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element {
 
   return (
     <div className="page">
-      <header className="header">
-        <div className="container">
-          <div className="header__wrapper">
-            <div className="header__left">
-              <Link
-                className="header__logo-link"
-                to={AppRoute.MainPage}
-              >
-                <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
-              </Link>
-            </div>
-            <nav className="header__nav">
-              <ul className="header__nav-list">
-                <li className="header__nav-item user">
-                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.MainPage}>
-                    <div className="header__avatar-wrapper user__avatar-wrapper">
-                    </div>
-                    <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
-                    <span className="header__favorite-count">3</span>
-                  </Link>
-                </li>
-                <li className="header__nav-item">
-                  <a className="header__nav-link" href="#">
-                    <span className="header__signout">Sign out</span>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-        </div>
-      </header>
-
+      <Header authorizationStatus={AuthorizationStatus.Auth}/>
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
@@ -201,7 +171,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element {
                   </li>
                 </ul>
 
-                <ReviewForm />
+                <ReviewForm authorizationStatus={AuthorizationStatus.Auth}/>
 
               </section>
             </div>

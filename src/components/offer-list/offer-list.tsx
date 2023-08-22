@@ -13,7 +13,7 @@ function OfferList({ offers, cardMouseEnterHandle, cardMouseLeaveHandle }: Offer
     <>
       {offers.map((item) => (
         <PlaceCard
-          key= {item.id} {...item}
+          key= {item.id} cardClass={'cities'} {...item}
           cardMouseEnterHandle={cardMouseEnterHandle}
           cardMouseLeaveHandle={cardMouseLeaveHandle}
         />
