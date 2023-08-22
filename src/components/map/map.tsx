@@ -8,11 +8,12 @@ type MapProps = {
   location: Location;
   offers: OfferPreview[];
   selectedOfferId: OfferPreview['id'];
+  isMainScreen: boolean;
 };
 
-function Map({ location, offers, selectedOfferId }: MapProps): JSX.Element {
+function Map({ location, offers, selectedOfferId, isMainScreen }: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef, location);
+  const map = useMap(mapRef, location, isMainScreen);
 
   const defaultCustomIcon = new Icon({
     iconUrl: 'img/pin.svg',
@@ -52,7 +53,7 @@ function Map({ location, offers, selectedOfferId }: MapProps): JSX.Element {
   return (
     <div
       ref={mapRef}
-      style={{height: '100%'}}
+      style={{ height: '100%' }}
     >
     </div>
   );

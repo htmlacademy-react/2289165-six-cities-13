@@ -16,11 +16,9 @@ type OfferPageProps = {
   offers: OfferFull[];
   someOffers: OfferPreview[];
   reviews: Review[];
-  cardMouseEnterHandle?: (id: OfferPreview['id']) => void;
-  cardMouseLeaveHandle?: () => void;
 }
 
-function OfferPage({ someOffers, offers, reviews, cardMouseEnterHandle, cardMouseLeaveHandle }: OfferPageProps): JSX.Element {
+function OfferPage({ someOffers, offers, reviews}: OfferPageProps): JSX.Element {
 
 
   const { id } = useParams<PageParams>();
@@ -163,7 +161,10 @@ function OfferPage({ someOffers, offers, reviews, cardMouseEnterHandle, cardMous
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <OfferList cardClass={'near-places'} offers={nearbyOffers} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
+              <OfferList
+                cardClass={'near-places'}
+                offers={nearbyOffers}
+              />
             </div>
           </section>
         </div>

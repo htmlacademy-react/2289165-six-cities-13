@@ -53,7 +53,7 @@ function CitiesPlaces({ offers, selectedCityByName }: CitiesPLacesProps): JSX.El
               'latitude': 52.35514938496378,
               'longitude': 4.673877537499948,
               'zoom': 10
-            }} offers={offers} selectedOfferId={selectedOfferId}
+            }} offers={offers} selectedOfferId={selectedOfferId} isMainScreen
             />
 
           </section>

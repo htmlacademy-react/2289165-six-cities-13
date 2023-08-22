@@ -4,7 +4,8 @@ import { Map, TileLayer } from 'leaflet';
 
 function useMap(
   mapRef: MutableRefObject<HTMLElement | null>,
-  location: Location
+  location: Location,
+  isMainScreen: boolean,
 ): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
@@ -17,6 +18,7 @@ function useMap(
           lng: location.longitude,
         },
         zoom: location.zoom,
+        scrollWheelZoom: isMainScreen,
       });
 
       const layer = new TileLayer(
