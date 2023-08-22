@@ -7,7 +7,8 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import RedirectToMainPage from '../redirect-to-main-page/redirect-to-main-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { OfferPreview, OfferPageData } from '../../mocks/offers';
+import { OfferPreview, OfferPageData, OfferPreviewData } from '../../mocks/offers';
+import { reviews } from '../../mocks/review';
 
 
 type AppProps = {
@@ -41,7 +42,7 @@ function App({ offers }: AppProps): JSX.Element {
         />
         <Route
           path={AppRoute.OfferPage}
-          element={<OfferPage offers={OfferPageData}/>}
+          element={<OfferPage reviews={reviews} offers={OfferPageData} someOffers={OfferPreviewData}/>}
         />
         <Route
           path={AppRoute.PageNotFound}

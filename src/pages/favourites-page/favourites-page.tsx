@@ -1,6 +1,7 @@
 import { FavouriteOffer } from '../../mocks/favourite';
 import Header from '../../components/header/header';
 import FavouriteOffers from '../../components/favourite-offers/favourite-offers';
+import { AuthorizationStatus } from '../../const';
 
 type FavouriteProps = {
   favouriteData: FavouriteOffer[];
@@ -11,7 +12,7 @@ function FavouritesPage({ favouriteData }: FavouriteProps): JSX.Element {
 
   return (
     <div className={`page ${classNameForEmptyPage}`}>
-      <Header />
+      <Header authorizationStatus={AuthorizationStatus.Auth}/>
 
       <FavouriteOffers favouriteData= {favouriteData}/>
       <footer className='footer container'>

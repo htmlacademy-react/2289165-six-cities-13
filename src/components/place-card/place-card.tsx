@@ -1,10 +1,10 @@
 import { OfferPreview } from '../../mocks/offers';
 import { Link } from 'react-router-dom';
-import { getBigFirstLetter, roundRating } from '../../utils';
-
+import { CardClass } from '../offer-list/offer-list';
+import { roundRating, getBigFirstLetter } from '../../utils';
 
 export type PlaceCardProps = OfferPreview & {
-  cardClass: string;
+  cardClass: CardClass;
   cardMouseEnterHandle?: (id: OfferPreview['id']) => void;
   cardMouseLeaveHandle?: () => void;
 }
@@ -41,8 +41,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
           <img
             className='place-card__image'
             src={previewImage}
-            width={cardClass === 'cities' ? 260 : 150}
-            height={cardClass === 'cities' ? 200 : 110}
+            width={cardClass === 'favorites' ? 150 : 260}
+            height={cardClass === 'favorites' ? 110 : 200}
             alt='Place image'
           />
         </Link>

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import Header from '../../components/header/header';
 
 function LoginPage(): JSX.Element {
   return (
     <div className='page page--gray page--login'>
-      <Header />
+      <Header authorizationStatus={AuthorizationStatus.NoAuth} />
 
       <main className='page__main page__main--login'>
         <div className='page__login-container container'>

@@ -43,19 +43,16 @@ function CitiesPlaces({ offers, selectedCityByName }: CitiesPLacesProps): JSX.El
             </ul>
           </form>
           <div className='cities__places-list places__list tabs__content'>
-            <OfferList offers={offers} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
+            <OfferList cardClass={'cities'} offers={offers} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
           </div>
         </section>
         <div className='cities__right-section'>
           <section className='cities__map map'>
-            {/* <Map city={selectedCity.city} offers={offers} selectedOfferId={selectedOfferId} /> */}
-            <Map city={{
-              'name': 'Amsterdam',
-              'location': {
-                'latitude': 52.35514938496378,
-                'longitude': 4.673877537499948,
-                'zoom': 10
-              }
+            {/* <Map location={selectedCity.city} offers={offers} selectedOfferId={selectedOfferId} /> */}
+            <Map location={{
+              'latitude': 52.35514938496378,
+              'longitude': 4.673877537499948,
+              'zoom': 10
             }} offers={offers} selectedOfferId={selectedOfferId}
             />
 
