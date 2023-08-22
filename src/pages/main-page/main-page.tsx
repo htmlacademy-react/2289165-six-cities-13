@@ -1,19 +1,21 @@
 import { OfferPreview } from '../../mocks/offers';
 import Header from '../../components/header/header';
 import CitiesPlaces from '../../components/cities-places/cities-places';
+import { AuthorizationStatus } from '../../const';
+
 
 type MainPageProps = {
   offers: OfferPreview[];
 }
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
-
+  const classNameForEmptyPage = offers.length < 1 ? 'page__main--index-empty' : '';
 
   return (
-    <div className='page page--gray page--main'>
-      <Header />
+    <div className={`page page--gray page--main ${classNameForEmptyPage}`}>
+      <Header authorizationStatus={AuthorizationStatus.Auth}/>
 
-      <main className='page__main page__main--index'>
+      <main className='page__main page__main--index '>
         <h1 className='visually-hidden'>Cities</h1>
         <div className='tabs'>
           <section className='locations container'>

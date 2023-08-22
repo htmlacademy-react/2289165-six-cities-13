@@ -1,5 +1,8 @@
 import { OfferPreview } from '../../mocks/offers.ts';
 import OfferList from '../offer-list/offer-list.tsx';
+import Map from '../../components/map/map';
+import {useState} from 'react';
+import { getEnding } from '../../utils.ts';
 
 type CitiesPLacesProps = {
   offers: OfferPreview[];
@@ -7,13 +10,19 @@ type CitiesPLacesProps = {
 
 function CitiesPlaces({ offers }: CitiesPLacesProps): JSX.Element {
   const offersCount = offers.length;
+  const [selectedOfferId, setSelectedOfferId] = useState<OfferPreview['id']>('');
+
+  const cardMouseEnterHandle = (id: OfferPreview['id']) => setSelectedOfferId(id);
+  const cardMouseLeaveHandle = () => setSelectedOfferId('');
 
   if (offersCount > 1) {
+    //выбрать город
+    const selectedCity = offers[0].city;
     return (
       <div className='cities__places-container container'>
         <section className='cities__places places'>
           <h2 className='visually-hidden'>Places</h2>
-          <b className='places__found'>{offersCount} places to stay in Amsterdam</b>
+          <b className='places__found'>{offersCount} place{getEnding(offersCount)} to stay in Amsterdam</b>
           <form className='places__sorting' action='#' method='get'>
             <span className='places__sorting-caption'>Sort by</span>
             <span className='places__sorting-type' tabIndex={0}>
@@ -30,11 +39,13 @@ function CitiesPlaces({ offers }: CitiesPLacesProps): JSX.Element {
             </ul>
           </form>
           <div className='cities__places-list places__list tabs__content'>
-            <OfferList offers={offers} />
+            <OfferList offers={offers} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
           </div>
         </section>
         <div className='cities__right-section'>
-          <section className='cities__map map'></section>
+          <section className='cities__map map'>
+            <Map city={selectedCity} offers={offers} selectedOfferId={selectedOfferId} />
+          </section>
         </div>
       </div>
     );
@@ -49,7 +60,6 @@ function CitiesPlaces({ offers }: CitiesPLacesProps): JSX.Element {
         </div>
       </section>
       <div className="cities__right-section">
-        <img src="../../img/no-places@2x.png" ></img>
       </div>
     </div>
   );

@@ -6,11 +6,11 @@ const AppRoute = {
   PageNotFound: '*',
 } as const;
 
-const AuthorizationStatus = {
-  Auth: 'AUTH',
-  NoAuth: 'NO_AUTH',
-  Unknown: 'UNKNOWN',
-} as const;
+enum AuthorizationStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
 
 const MAX_RATING_STARS = 5;
 const MIN_LENGTH_COMMENT = 50;

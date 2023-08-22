@@ -1,7 +1,7 @@
 import { ReviewForm } from '../../components/review-form/review-form';
 import { Navigate, useParams } from 'react-router-dom';
 import { OfferFull } from '../../mocks/offers';
-import { AppRoute } from '../../const';
+import { AppRoute, AuthorizationStatus } from '../../const';
 import { roundRating, getBigFirstLetter, getEnding } from '../../utils';
 import Header from '../../components/header/header';
 
@@ -71,7 +71,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element {
 
   return (
     <div className="page">
-      <Header />
+      <Header authorizationStatus={AuthorizationStatus.Auth}/>
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">
@@ -171,7 +171,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element {
                   </li>
                 </ul>
 
-                <ReviewForm />
+                <ReviewForm authorizationStatus={AuthorizationStatus.Auth}/>
 
               </section>
             </div>
