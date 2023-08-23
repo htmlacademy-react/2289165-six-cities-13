@@ -24,8 +24,6 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
   const cityClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) =>
     dispatch(changeCity(evt.currentTarget.title));
 
-  //tabs__item--active
-
   const selectedCity = useAppSelector((state) => state.city);
 
   const offersByCity = getOffersByCity(offers, selectedCity);
@@ -41,32 +39,32 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
             <section className='locations container'>
               <ul className='locations__list tabs__list'>
                 <li className='locations__item'>
-                  <a className='locations__item-link tabs__item' href='#' title="Paris" >
+                  <a className={`locations__item-link tabs__item ${selectedCity === 'Paris' ? 'tabs__item--active' : ''}`} href='#' title="Paris" >
                     <span title="Paris" onClick={cityClickHandle}>Paris</span>
                   </a>
                 </li>
                 <li className='locations__item'>
-                  <a className='locations__item-link tabs__item' href='#'>
+                  <a className={`locations__item-link tabs__item ${selectedCity === 'Cologne' ? 'tabs__item--active' : ''}`} href='#'>
                     <span title="Cologne" onClick={cityClickHandle}>Cologne</span>
                   </a>
                 </li>
                 <li className='locations__item'>
-                  <a className='locations__item-link tabs__item' href='#'>
+                  <a className={`locations__item-link tabs__item ${selectedCity === 'Brussels' ? 'tabs__item--active' : ''}`} href='#'>
                     <span title="Brussels" onClick={cityClickHandle}>Brussels</span>
                   </a>
                 </li>
                 <li className='locations__item'>
-                  <a className='locations__item-link tabs__item tabs__item--active'>
+                  <a className={`locations__item-link tabs__item ${selectedCity === 'Amsterdam' ? 'tabs__item--active' : ''}`}>
                     <span title="Amsterdam" onClick={cityClickHandle}>Amsterdam</span>
                   </a>
                 </li>
                 <li className='locations__item'>
-                  <a className='locations__item-link tabs__item' href='#'>
+                  <a className={`locations__item-link tabs__item ${selectedCity === 'Hamburg' ? 'tabs__item--active' : ''}`} href='#'>
                     <span title="Hamburg" onClick={cityClickHandle}>Hamburg</span>
                   </a>
                 </li>
                 <li className='locations__item'>
-                  <a className='locations__item-link tabs__item' href='#'>
+                  <a className={`locations__item-link tabs__item ${selectedCity === 'Dusseldorf' ? 'tabs__item--active' : ''}`} href='#'>
                     <span title="Dusseldorf" onClick={cityClickHandle}>Dusseldorf</span>
                   </a>
                 </li>
@@ -103,32 +101,33 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
           <section className='locations container'>
             <ul className='locations__list tabs__list'>
               <li className='locations__item'>
-                <a className='locations__item-link tabs__item' href='#' title="Paris">
+                {/* <a className='locations__item-link tabs__item' href='#' title="Paris"> */}
+                <a className={`locations__item-link tabs__item ${selectedCity === 'Paris' ? 'tabs__item--active' : ''}`} href='#' title="Paris">
                   <span title="Paris" onClick={cityClickHandle}>Paris</span>
                 </a>
               </li>
               <li className='locations__item'>
-                <a className='locations__item-link tabs__item' href='#'>
+                <a className={`locations__item-link tabs__item ${selectedCity === 'Cologne' ? 'tabs__item--active' : ''}`} href='#'>
                   <span title="Cologne" onClick={cityClickHandle}>Cologne</span>
                 </a>
               </li>
               <li className='locations__item'>
-                <a className='locations__item-link tabs__item' href='#'>
+                <a className={`locations__item-link tabs__item ${selectedCity === 'Brussels' ? 'tabs__item--active' : ''}`} href='#'>
                   <span title="Brussels" onClick={cityClickHandle}>Brussels</span>
                 </a>
               </li>
               <li className='locations__item'>
-                <a className='locations__item-link tabs__item tabs__item--active'>
+                <a className={`locations__item-link tabs__item ${selectedCity === 'Amsterdam' ? 'tabs__item--active' : ''}`}>
                   <span title="Amsterdam" onClick={cityClickHandle}>Amsterdam</span>
                 </a>
               </li>
               <li className='locations__item'>
-                <a className='locations__item-link tabs__item' href='#'>
+                <a className={`locations__item-link tabs__item ${selectedCity === 'Hamburg' ? 'tabs__item--active' : ''}`} href='#'>
                   <span title="Hamburg" onClick={cityClickHandle}>Hamburg</span>
                 </a>
               </li>
               <li className='locations__item'>
-                <a className='locations__item-link tabs__item' href='#'>
+                <a className={`locations__item-link tabs__item ${selectedCity === 'Dusseldorf' ? 'tabs__item--active' : ''}`} href='#'>
                   <span title="Dusseldorf" onClick={cityClickHandle}>Dusseldorf</span>
                 </a>
               </li>

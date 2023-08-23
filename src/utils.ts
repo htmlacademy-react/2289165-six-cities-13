@@ -20,7 +20,7 @@ const sortOffersByRatingDown = (firstOffer: OfferPreview, secondOffer: OfferPrev
   secondOffer.rating - firstOffer.rating;
 
 
-const sortOffers = (offers: OfferPreview[], sortingType: string | null) => {
+const sortOffers = (offers: OfferPreview[], sortingType: string | null): OfferPreview[] => {
   const sortedOffers = [...offers];
   switch (sortingType) {
     case SortingType.LowToHighPrice:

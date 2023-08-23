@@ -17,25 +17,18 @@ type ReviewFormProps = {
 function ReviewForm({authorizationStatus}: ReviewFormProps): JSX.Element {
   const [formData, setFormData] = useState('');
   const [rating, setRating] = useState(DEFAULT_RATING);
-  const [disabled, setActive] = useState(true);
-
-  const validateForm = (commentLength: number, newRating: number) => {
-    const isDisabled = !(commentLength >= MIN_LENGTH_COMMENT &&
-      commentLength <= MAX_LENGTH_COMMENT &&
-      newRating !== DEFAULT_RATING);
-    setActive(isDisabled);
-  };
+  const isDisabled = !(formData.length >= MIN_LENGTH_COMMENT &&
+    formData.length <= MAX_LENGTH_COMMENT &&
+    rating !== DEFAULT_RATING);
 
   const starClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
     const newRating = ratingTitlesForStars[evt.currentTarget.title];
     setRating(newRating);
-    validateForm(formData.length, newRating);
   };
 
   const commentInputHandle = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = evt.target;
     setFormData(value);
-    validateForm(formData.length, rating);
   };
 
   const ratingForm = (
@@ -103,7 +96,7 @@ function ReviewForm({authorizationStatus}: ReviewFormProps): JSX.Element {
           <button
             className="reviews__submit form__submit button"
             type="submit"
-            disabled={disabled}
+            disabled={isDisabled}
           >
             Submit
           </button>

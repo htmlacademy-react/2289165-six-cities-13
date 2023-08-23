@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { OfferPreview, OfferPreviewData } from '../mocks/offers';
 // import { CityName } from '../const.ts';
 // import { OfferPreview, offerPreviewList } from '../mocks/offer.ts';
-import { changeCity, changeSortingType, getOffers } from './action.ts';
+import { changeCity, changeSortingType, getOffers, downloadOffers, setLoadingStatus } from './action.ts';
 import { SortingType } from '../const.ts';
 
 //to const
@@ -13,12 +13,14 @@ type InitialState = {
   city: string;
   offers: OfferPreview[];
   sortType: SortingType;
+  isLoading: boolean;
 }
 
 const initialState: InitialState = {
   city: DEFAULT_SELECTED_CITY,
   offers: [],
   sortType: DEFAULT_SORT_TYPE,
+  isLoading: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -31,7 +33,16 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeSortingType, (state, action) => {
       state.sortType = action.payload;
+    })
+    .addCase(downloadOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(setLoadingStatus, (state, action) => {
+      state.isLoading = action.payload;
     });
+  // .addCase(requireAuthorization, (state, action) => {
+  //   state.authorizationStatus = action.payload;
+  // });
 });
 
-export {reducer};
+export { reducer };
