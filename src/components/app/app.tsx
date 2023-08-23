@@ -10,8 +10,10 @@ import { AppRoute, AuthorizationStatus } from '../../const';
 import { OfferPageData, OfferPreviewData } from '../../mocks/offers';
 import { reviews } from '../../mocks/review';
 import { useAppDispatch } from '../../hooks';
-import { getOffers } from '../../store/action';
+// import { getOffers } from '../../store/action';
+import { downloadOffers } from '../../store/action';
 import { useAppSelector } from '../../hooks';
+import LoadingPage from '../../pages/loading-page/loading-page';
 
 
 // type AppProps = {
@@ -21,7 +23,12 @@ import { useAppSelector } from '../../hooks';
 function App(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const dispatch = useAppDispatch();
-  dispatch(getOffers());
+  dispatch(downloadOffers);
+  // dispatch(getOffers());
+  const isLoading = useAppSelector((state) => state.isLoading);
+  if (isLoading) {
+    return (<LoadingPage />);
+  }
 
   return (
     <BrowserRouter>

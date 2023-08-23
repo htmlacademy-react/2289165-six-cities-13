@@ -1,19 +1,19 @@
 import {createAction} from '@reduxjs/toolkit';
 import { SortingType } from '../const';
+import { OfferPreview } from '../mocks/offers';
 
-export const changeCity = createAction('app/changeCity', (city: string) => ({
+export const changeCity = createAction('main-page/changeCity', (city: string) => ({
   payload: city
 }));
 
 export const getOffers = createAction('app/getOffers');
 
-export const changeSortingType = createAction('app/changeSortingType', (sortingType: SortingType) => ({
+export const changeSortingType = createAction('sorting/changeSortingType', (sortingType: SortingType) => ({
   payload: sortingType
 }));
 
+export const downloadOffers = createAction<OfferPreview[]>('data/downloadOffers');
 
-// На данном этапе нам потребуется несколько действий:
-// изменение города и
-// заполнение списка предложений по аренде.
-// Действие для заполнения списка предложений должно поместить
-// в хранилище все предложения по аренде. Пока используем тестовые данные.
+export const setLoadingStatus = createAction<boolean>('data/setLoadingStatus');
+
+// export const requireAuthorization = createAction<AuthorizationStatus>('user/requireAuthorization');

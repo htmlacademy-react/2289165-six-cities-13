@@ -12,6 +12,12 @@ enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
+enum APIRoute {
+  Offers = '/offers',
+  // Login = '/login',
+  // Logout = '/logout',
+}
+
 // enum CityName {
 //   Paris = 'Paris',
 //   Cologne = 'Cologne',
@@ -38,6 +44,6 @@ const MAX_LENGTH_COMMENT = 300;
 const DEFAULT_RATING = 0;
 const MAX_OFFERS_PREVIEW = 3;
 
-export { AppRoute, AuthorizationStatus, MAX_RATING_STARS, MAX_LENGTH_COMMENT, MIN_LENGTH_COMMENT, DEFAULT_RATING,
+export { AppRoute, AuthorizationStatus, APIRoute, MAX_RATING_STARS, MAX_LENGTH_COMMENT, MIN_LENGTH_COMMENT, DEFAULT_RATING,
   MAX_OFFERS_PREVIEW, CityName, SortingType };
 

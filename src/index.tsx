@@ -4,7 +4,9 @@ import App from './components/app/app';
 import { OfferPreviewData } from './mocks/offers';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { fetchOffersAction } from './store/api-actions';
 
+store.dispatch(fetchOffersAction());
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
