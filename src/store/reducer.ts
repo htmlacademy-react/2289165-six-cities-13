@@ -2,19 +2,23 @@ import { createReducer } from '@reduxjs/toolkit';
 import { OfferPreview, OfferPreviewData } from '../mocks/offers';
 // import { CityName } from '../const.ts';
 // import { OfferPreview, offerPreviewList } from '../mocks/offer.ts';
-import { changeCity, getOffers } from './action.ts';
+import { changeCity, changeSortingType, getOffers } from './action.ts';
+import { SortingType } from '../const.ts';
 
 //to const
 const DEFAULT_SELECTED_CITY = 'Paris';
+const DEFAULT_SORT_TYPE = SortingType.Popular;
 
 type InitialState = {
   city: string;
   offers: OfferPreview[];
+  sortType: SortingType;
 }
 
 const initialState: InitialState = {
   city: DEFAULT_SELECTED_CITY,
-  offers: []
+  offers: [],
+  sortType: DEFAULT_SORT_TYPE,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -24,6 +28,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(getOffers, (state) => {
       state.offers = OfferPreviewData;
+    })
+    .addCase(changeSortingType, (state, action) => {
+      state.sortType = action.payload;
     });
 });
 
