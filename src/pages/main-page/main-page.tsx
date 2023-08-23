@@ -11,7 +11,7 @@ type MainPageProps = {
   offers: OfferPreview[];
 }
 
-function MainPage({offers}: MainPageProps): JSX.Element {
+function MainPage({ offers }: MainPageProps): JSX.Element {
   // const classNameForEmptyPage = offers.length < 1 ? 'page__main--index-empty' : '';
 
   // const [selectedCity, setSelectedCity] = useState<string>(DEFAULT_SELECTED_CITY);
@@ -21,7 +21,10 @@ function MainPage({offers}: MainPageProps): JSX.Element {
   // };
 
   const dispatch = useDispatch();
-  const cityClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) => dispatch(changeCity(evt.currentTarget.title));
+  const cityClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) =>
+    dispatch(changeCity(evt.currentTarget.title));
+
+  //tabs__item--active
 
   const selectedCity = useAppSelector((state) => state.city);
 
@@ -38,7 +41,7 @@ function MainPage({offers}: MainPageProps): JSX.Element {
             <section className='locations container'>
               <ul className='locations__list tabs__list'>
                 <li className='locations__item'>
-                  <a className='locations__item-link tabs__item' href='#' title="Paris">
+                  <a className='locations__item-link tabs__item' href='#' title="Paris" >
                     <span title="Paris" onClick={cityClickHandle}>Paris</span>
                   </a>
                 </li>
