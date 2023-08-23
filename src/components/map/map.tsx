@@ -50,6 +50,12 @@ function Map({ location, offers, selectedOfferId, isMainScreen }: MapProps): JSX
     }
   }, [map, offers, selectedOfferId]);
 
+  useEffect(() => {
+    if (map) {
+      map.flyTo([location.latitude, location.longitude]);
+    }
+  }, [location, map]);
+
   return (
     <div
       ref={mapRef}

@@ -20,8 +20,8 @@ function ReviewForm({authorizationStatus}: ReviewFormProps): JSX.Element {
   const [disabled, setActive] = useState(true);
 
   const validateForm = (commentLength: number, newRating: number) => {
-    const isDisabled = !(commentLength > MIN_LENGTH_COMMENT &&
-      commentLength < MAX_LENGTH_COMMENT &&
+    const isDisabled = !(commentLength >= MIN_LENGTH_COMMENT &&
+      commentLength <= MAX_LENGTH_COMMENT &&
       newRating !== DEFAULT_RATING);
     setActive(isDisabled);
   };

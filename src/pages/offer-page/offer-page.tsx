@@ -24,15 +24,20 @@ function OfferPage({ someOffers, offers, reviews}: OfferPageProps): JSX.Element 
   const { id } = useParams<PageParams>();
   const offerPage = offers.find((offer) => offer.id === id);
 
-  const locationOnMap = offers[0].city.location;
+  if (!offerPage) {
+    return <Navigate to={AppRoute.MainPage} replace/>;
+  }
+
+  if (!id) {
+    return <Navigate to={AppRoute.MainPage} replace />;
+  }
+
+  const selectedCityLocation = offerPage.city.location;
   //nearbyOffers будет приходить с сервера по id выбранного offer
   const nearbyOffers = someOffers.slice(0, MAX_OFFERS_PREVIEW);
   const offerPreview = someOffers.find((offer) => offer.id === id);
   const someOffersOnMap = offerPreview ? [offerPreview, ...someOffers] : someOffers;
 
-  if (!offerPage) {
-    return <Navigate to={AppRoute.MainPage} replace />;
-  }
 
   const {
     images,
@@ -154,7 +159,7 @@ function OfferPage({ someOffers, offers, reviews}: OfferPageProps): JSX.Element 
             </div>
           </div>
           <section className="offer__map map">
-            <Map location={locationOnMap} offers={someOffersOnMap} selectedOfferId={id} />
+            <Map location={selectedCityLocation} offers={someOffersOnMap} selectedOfferId={id} isMainScreen={false}/>
           </section>
         </section>
         <div className="container">

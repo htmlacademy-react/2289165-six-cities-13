@@ -7,22 +7,29 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import RedirectToMainPage from '../redirect-to-main-page/redirect-to-main-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { OfferPreview, OfferPageData, OfferPreviewData } from '../../mocks/offers';
+import { OfferPageData, OfferPreviewData } from '../../mocks/offers';
 import { reviews } from '../../mocks/review';
+import { useAppDispatch } from '../../hooks';
+import { getOffers } from '../../store/action';
+import { useAppSelector } from '../../hooks';
 
 
-type AppProps = {
-  offers: OfferPreview[];
-}
+// type AppProps = {
+//   offers: OfferPreview[];
+// }
 
-function App({ offers }: AppProps): JSX.Element {
+function App(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
+  const dispatch = useAppDispatch();
+  dispatch(getOffers());
+
   return (
     <BrowserRouter>
       <Routes>
         <Route
           index
           path={AppRoute.MainPage}
-          element={<MainPage offers={offers} />}
+          element={<MainPage offers = {offers}/>}
         />
         <Route
           path={AppRoute.LoginPage}
