@@ -3,15 +3,17 @@ import OfferList from '../offer-list/offer-list.tsx';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 import { getEnding } from '../../utils.ts';
+import { Location } from '../../mocks/offers.ts';
 
 type CitiesPLacesProps = {
-  offers: OfferPreview[];
   selectedCityByName: string;
+  selectedCityLocation: Location;
+  offersByCity: OfferPreview[];
 };
 
 
-function CitiesPlaces({ offers, selectedCityByName }: CitiesPLacesProps): JSX.Element {
-  const offersCount = offers.length;
+function CitiesPlaces({ offersByCity, selectedCityByName, selectedCityLocation }: CitiesPLacesProps): JSX.Element {
+  const offersCount = offersByCity.length;
   const [selectedOfferId, setSelectedOfferId] = useState<OfferPreview['id']>('');
   // const [selectedCity, setSelectedCity] = useState<OfferPreview['city']>(offers[0].city);
 
@@ -28,10 +30,10 @@ function CitiesPlaces({ offers, selectedCityByName }: CitiesPLacesProps): JSX.El
           <h2 className='visually-hidden'>Places</h2>
           <b className='places__found'>{offersCount} place{getEnding(offersCount)} to stay in {selectedCityByName}</b>
           <form className='places__sorting' action='#' method='get'>
-            <span className='places__sorting-caption'>Sort by</span>
+            <span className='places__sorting-caption'>Sort by </span>
             <span className='places__sorting-type' tabIndex={0}>
               Popular
-              <svg className='places__sorting-arrow' width='7' height='4'>
+              <svg className='places__sorting-arrow' width={7} height={4}>
                 <use xlinkHref='#icon-arrow-select'></use>
               </svg>
             </span>
@@ -43,19 +45,12 @@ function CitiesPlaces({ offers, selectedCityByName }: CitiesPLacesProps): JSX.El
             </ul>
           </form>
           <div className='cities__places-list places__list tabs__content'>
-            <OfferList cardClass={'cities'} offers={offers} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
+            <OfferList cardClass={'cities'} offers={offersByCity} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
           </div>
         </section>
         <div className='cities__right-section'>
           <section className='cities__map map'>
-            {/* <Map location={selectedCity.city} offers={offers} selectedOfferId={selectedOfferId} /> */}
-            <Map location={{
-              'latitude': 52.35514938496378,
-              'longitude': 4.673877537499948,
-              'zoom': 10
-            }} offers={offers} selectedOfferId={selectedOfferId} isMainScreen
-            />
-
+            <Map location={selectedCityLocation} offers={offersByCity} selectedOfferId={selectedOfferId} isMainScreen />
           </section>
         </div>
       </div>

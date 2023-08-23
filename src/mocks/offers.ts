@@ -45,16 +45,16 @@ const OfferPreviewData: OfferPreview[] = [
     'price': 392,
     'previewImage': 'https://13.design.pages.academy/static/hotel/3.jpg',
     'city': {
-      'name': 'Amsterdam',
+      'name': 'Paris',
       'location': {
-        'latitude': 52.35514938496378,
-        'longitude':  4.673877537499948,
-        'zoom': 10
+        'latitude': 48.85661,
+        'longitude': 2.351499,
+        'zoom': 13
       }
     },
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.85309666406198,
+      'latitude': 48.868610000000004,
+      'longitude': 2.342499,
       'zoom': 16
     },
     'isFavorite': false,
@@ -71,7 +71,7 @@ const OfferPreviewData: OfferPreview[] = [
       'name': 'Amsterdam',
       'location': {
         'latitude': 52.35514938496378,
-        'longitude':  4.673877537499948,
+        'longitude': 4.673877537499948,
         'zoom': 8
       }
     },
@@ -91,16 +91,16 @@ const OfferPreviewData: OfferPreview[] = [
     'price': 287,
     'previewImage': 'https://13.design.pages.academy/static/hotel/11.jpg',
     'city': {
-      'name': 'Amsterdam',
+      'name': 'Paris',
       'location': {
-        'latitude': 52.35514938496378,
-        'longitude':  4.673877537499948,
-        'zoom': 8
+        'latitude': 48.85661,
+        'longitude': 2.351499,
+        'zoom': 13
       }
     },
     'location': {
-      'latitude': 52.3909553943508,
-      'longitude': 4.929309666406198,
+      'latitude': 48.858610000000006,
+      'longitude': 2.330499,
       'zoom': 16
     },
     'isFavorite': false,
@@ -117,7 +117,7 @@ const OfferPreviewData: OfferPreview[] = [
       'name': 'Amsterdam',
       'location': {
         'latitude': 52.35514938496378,
-        'longitude':  4.673877537499948,
+        'longitude': 4.673877537499948,
         'zoom': 8
       }
     },
@@ -257,4 +257,4 @@ const OfferPageData: OfferFull[] = [
   }
 ];
 
-export { OfferPreviewData, OfferPageData};
+export { OfferPreviewData, OfferPageData };
