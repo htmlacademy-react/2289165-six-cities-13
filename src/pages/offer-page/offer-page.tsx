@@ -87,7 +87,7 @@ function OfferPage({ someOffers, offers, reviews}: OfferPageProps): JSX.Element 
 
   return (
     <div className="page">
-      <Header authorizationStatus={AuthorizationStatus.Auth} />
+      <Header />
       <main className="page__main page__main--offer">
         <section className="offer">
           <div className="offer__gallery-container container">

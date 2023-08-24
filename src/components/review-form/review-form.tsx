@@ -1,5 +1,6 @@
 import { useState, Fragment } from 'react';
 import { MIN_LENGTH_COMMENT, MAX_LENGTH_COMMENT, DEFAULT_RATING, AuthorizationStatus } from '../../const';
+import { useAppSelector } from '../../hooks/index.ts';
 
 const ratingTitlesForStars: { [key: string]: number } = {
   'terribly': 1,
@@ -9,12 +10,16 @@ const ratingTitlesForStars: { [key: string]: number } = {
   'perfect': 5,
 };
 
-type ReviewFormProps = {
-  authorizationStatus: AuthorizationStatus;
-}
+// type ReviewFormProps = {
+//   authorizationStatus: AuthorizationStatus;
+// }
 
 
-function ReviewForm({authorizationStatus}: ReviewFormProps): JSX.Element {
+function ReviewForm(): JSX.Element {
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+
   const [formData, setFormData] = useState('');
   const [rating, setRating] = useState(DEFAULT_RATING);
   const isDisabled = !(formData.length >= MIN_LENGTH_COMMENT &&
@@ -61,7 +66,8 @@ function ReviewForm({authorizationStatus}: ReviewFormProps): JSX.Element {
       .reverse()
   );
 
-  return (authorizationStatus === AuthorizationStatus.Auth
+  return (isAuthorized
+
     ? (
       <form
         className="reviews__form form"

@@ -1,6 +1,5 @@
 import { ReviewForm } from '../review-form/review-form';
 import { ReviewsItem } from '../reviews-item/reviews-item';
-import { AuthorizationStatus } from '../../const';
 import { Review } from '../../mocks/review';
 
 type ReviewsProps = {
@@ -15,7 +14,7 @@ function Reviews({ reviews }: ReviewsProps): JSX.Element {
         {reviews.map((oneReview) => <ReviewsItem key={oneReview.id} review={oneReview} />)}
       </ul>
 
-      <ReviewForm authorizationStatus={AuthorizationStatus.Auth} />
+      <ReviewForm />
 
     </section>
   );
