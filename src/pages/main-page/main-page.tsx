@@ -31,7 +31,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
 
     return (
       <div className='page page--gray page--main page__main--index-empty'>
-        <Header authorizationStatus={AuthorizationStatus.Auth} />
+        <Header />
 
         <main className='page__main page__main--index '>
           <h1 className='visually-hidden'>Cities</h1>
@@ -93,7 +93,7 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
 
   return (
     <div className='page page--gray page--main'>
-      <Header authorizationStatus={AuthorizationStatus.Auth} />
+      <Header />
 
       <main className='page__main page__main--index '>
         <h1 className='visually-hidden'>Cities</h1>

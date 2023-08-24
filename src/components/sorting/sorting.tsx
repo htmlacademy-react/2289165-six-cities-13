@@ -9,7 +9,7 @@ function Sorting(): JSX.Element {
   const selectedSortType = useAppSelector((state) => state.sortType);
   const dispatch = useAppDispatch();
 
-  const sortingClickHandle = () => setIsOpened(!isOpened); //setIsOpened((prevState) => !prevState);
+  const sortingClickHandle = () => setIsOpened(!isOpened);
 
 
   const sortTypeChangeHandle = (sortType: SortingType) => {

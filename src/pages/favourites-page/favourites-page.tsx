@@ -12,7 +12,7 @@ function FavouritesPage({ favouriteData }: FavouriteProps): JSX.Element {
 
   return (
     <div className={`page ${classNameForEmptyPage}`}>
-      <Header authorizationStatus={AuthorizationStatus.Auth}/>
+      <Header />
 
       <FavouriteOffers favouriteData= {favouriteData}/>
       <footer className='footer container'>

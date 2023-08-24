@@ -14,8 +14,8 @@ enum AuthorizationStatus {
 
 enum APIRoute {
   Offers = '/offers',
-  // Login = '/login',
-  // Logout = '/logout',
+  Login = '/login',
+  Logout = '/logout',
 }
 
 // enum CityName {
