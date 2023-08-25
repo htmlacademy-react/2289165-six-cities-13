@@ -60,10 +60,10 @@ function App(): JSX.Element {
         />
         <Route
           path={AppRoute.OfferPage}
-          element={<OfferPage reviews={reviews} offers={OfferPageData} someOffers={OfferPreviewData}/>}
+          element={<OfferPage offers={offers}/>}
         />
         <Route
-          path={AppRoute.PageNotFound}
+          path={AppRoute.NotFoundPage}
           element={<NotFoundPage />}
         />
       </Routes>

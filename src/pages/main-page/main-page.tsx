@@ -1,7 +1,6 @@
 import { OfferPreview } from '../../mocks/offers';
 import Header from '../../components/header/header';
 import CitiesPlaces from '../../components/cities-places/cities-places';
-import { AuthorizationStatus } from '../../const';
 import { getOffersByCity } from '../../utils';
 import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';

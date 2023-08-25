@@ -1,42 +1,52 @@
 import { Reviews } from '../../components/reviews/reviews';
-import { Review } from '../../mocks/review';
-import { Navigate, useParams } from 'react-router-dom';
-import { OfferFull, OfferPreview } from '../../mocks/offers';
-import { AppRoute, AuthorizationStatus, MAX_OFFERS_PREVIEW } from '../../const';
+import { useParams } from 'react-router-dom';
+import { OfferPreview } from '../../mocks/offers';
+import { MAX_OFFERS_PREVIEW } from '../../const';
 import { roundRating, getBigFirstLetter, getEnding } from '../../utils';
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OfferList from '../../components/offer-list/offer-list';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction } from '../../store/api-actions';
+import { useEffect } from 'react';
+import NotFoundPage from '../not-found-page/not-found-page';
 
 type PageParams = {
   id: string;
 }
 
 type OfferPageProps = {
-  offers: OfferFull[];
-  someOffers: OfferPreview[];
-  reviews: Review[];
+  offers: OfferPreview[];
 }
 
-function OfferPage({ someOffers, offers, reviews}: OfferPageProps): JSX.Element {
+function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
+
+  const dispatch = useAppDispatch();
+
+  const fullOffer = useAppSelector((state) => state.fullOffer);
+  const reviews = useAppSelector((state) => state.reviews);
+  const nearby = useAppSelector((state) => state.nearby);
 
 
-  const { id } = useParams<PageParams>();
-  const offerPage = offers.find((offer) => offer.id === id);
+  const fullOfferId = String(useParams<PageParams>().id);
 
-  if (!offerPage) {
-    return <Navigate to={AppRoute.MainPage} replace/>;
+  useEffect(() => {
+    dispatch(fetchFullOfferAction(fullOfferId));
+    dispatch(fetchReviewsAction(fullOfferId));
+    dispatch(fetchNearbyAction(fullOfferId));
+  }, [dispatch, fullOfferId]);
+
+  if (!fullOffer) {
+    return <NotFoundPage />;
   }
 
-  if (!id) {
-    return <Navigate to={AppRoute.MainPage} replace />;
-  }
+  const nearbyOffers = nearby.slice(0, MAX_OFFERS_PREVIEW);
 
-  const selectedCityLocation = offerPage.city.location;
-  //nearbyOffers будет приходить с сервера по id выбранного offer
-  const nearbyOffers = someOffers.slice(0, MAX_OFFERS_PREVIEW);
-  const offerPreview = someOffers.find((offer) => offer.id === id);
-  const someOffersOnMap = offerPreview ? [offerPreview, ...someOffers] : someOffers;
+  const selectedCityLocation = fullOffer.city.location;
+
+  const offerPreview = offers.find((offer) => offer.id === fullOfferId);
+
+  const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
 
 
   const {
@@ -52,7 +62,7 @@ function OfferPage({ someOffers, offers, reviews}: OfferPageProps): JSX.Element 
     host,
     maxAdults,
     price,
-  } = offerPage;
+  } = fullOffer;
 
 
   const offerImages = (
@@ -155,11 +165,11 @@ function OfferPage({ someOffers, offers, reviews}: OfferPageProps): JSX.Element 
                   </p>
                 </div>
               </div>
-              <Reviews reviews={reviews} />
+              <Reviews reviews={reviews} offerId={fullOfferId}/>
             </div>
           </div>
           <section className="offer__map map">
-            <Map location={selectedCityLocation} offers={someOffersOnMap} selectedOfferId={id} isMainScreen={false}/>
+            <Map location={selectedCityLocation} offers={nearbyOnMap} selectedOfferId={fullOfferId} isMainScreen={false} />
           </section>
         </section>
         <div className="container">

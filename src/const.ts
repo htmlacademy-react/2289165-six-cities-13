@@ -1,10 +1,18 @@
-const AppRoute = {
-  MainPage: '/',
-  LoginPage: '/login',
-  FavouritesPage: '/favorites',
-  OfferPage: '/offer/:id',
-  PageNotFound: '*',
-} as const;
+// const AppRoute = {
+//   MainPage: '/',
+//   LoginPage: '/login',
+//   FavouritesPage: '/favorites',
+//   OfferPage: '/offer/:id',
+//   PageNotFound: '*',
+// } as const;
+
+enum AppRoute {
+  MainPage= '/',
+  LoginPage= '/login',
+  FavouritesPage= '/favorites',
+  OfferPage= '/offer/:id',
+  NotFoundPage= '*',
+}
 
 enum AuthorizationStatus {
   Auth = 'AUTH',
@@ -16,6 +24,8 @@ enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Review = '/comments',
+  Nearby = '/nearby',
 }
 
 // enum CityName {

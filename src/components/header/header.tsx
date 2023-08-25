@@ -5,8 +5,12 @@ import { logoutAction } from '../../store/api-actions.ts';
 
 function Header(): JSX.Element {
   const dispatch = useAppDispatch();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isAuthorized = authorizationStatus === AuthorizationStatus.Auth;
+  const isAuthorized = useAppSelector(
+    (state) => state.authorizationStatus
+  ) === AuthorizationStatus.Auth;
+
+  const userInfo = useAppSelector((state) => state.userInfo);
+  const userAvatar = userInfo?.avatarUrl ? { backgroundImage: `url(${userInfo?.avatarUrl})`} : {};
 
   const logoutClickHandle = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
@@ -26,10 +30,10 @@ function Header(): JSX.Element {
             <ul className="header__nav-list">
               <li className="header__nav-item user">
                 <Link className="header__nav-link header__nav-link--profile" to={isAuthorized ? AppRoute.FavouritesPage : AppRoute.LoginPage}>
-                  <div className="header__avatar-wrapper user__avatar-wrapper"></div>
+                  <div className="header__avatar-wrapper user__avatar-wrapper" style={{...userAvatar, borderRadius: '50%'}}></div>
                   {isAuthorized &&
                     <>
-                      <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                      <span className="header__user-name user__name">{userInfo?.email}</span>
                       <span className="header__favorite-count">3</span>
                     </>}
                 </Link>
