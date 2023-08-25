@@ -1,6 +1,5 @@
-import { MAX_RATING_STARS } from './const';
-import { OfferPreview } from './mocks/offers';
-import { SortingType } from './const';
+import { MAX_RATING_STARS, SortingType, MAX_REVIEWS_COUNT } from './const';
+import { OfferPreview, Review } from './types';
 
 const roundRating = (rating: number) => window.Math.round(rating) * 100 / MAX_RATING_STARS;
 const getBigFirstLetter = (word: string) => word[0].toUpperCase() + word.slice(1);
@@ -34,5 +33,11 @@ const sortOffers = (offers: OfferPreview[], sortingType: string | null): OfferPr
   }
 };
 
-export { roundRating, getBigFirstLetter, getEnding, getOffersByCity, sortOffers };
+const getRewiewsSortedByDate = (rewiews: Review[]): Review[] => (
+  [...rewiews]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, MAX_REVIEWS_COUNT)
+);
+
+export { roundRating, getBigFirstLetter, getEnding, getOffersByCity, sortOffers, getRewiewsSortedByDate };
 

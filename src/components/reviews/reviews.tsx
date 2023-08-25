@@ -3,6 +3,7 @@ import { ReviewsItem } from '../reviews-item/reviews-item';
 import { Review } from '../../types';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
+import { getRewiewsSortedByDate } from '../../utils';
 
 type ReviewsProps = {
   reviews: Review[];
@@ -19,11 +20,11 @@ function Reviews({ reviews, offerId }: ReviewsProps): JSX.Element {
     <section className="offer__reviews reviews">
       <h2 className="reviews__title">Reviews  <span className="reviews__amount">{reviews.length}</span></h2>
       {reviews.length !== 0 &&
-      <ul className="reviews__list">
-        {reviews.map((oneReview) => <ReviewsItem key={oneReview.id} review={oneReview} />)}
-      </ul>}
+        <ul className="reviews__list">
+          {getRewiewsSortedByDate(reviews).map((oneReview) => <ReviewsItem key={oneReview.id} review={oneReview} />)}
+        </ul>}
 
-      {isAuthorized && <ReviewForm offerId={offerId}/>}
+      {isAuthorized && <ReviewForm offerId={offerId} />}
 
     </section>
   );
