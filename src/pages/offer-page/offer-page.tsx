@@ -1,6 +1,6 @@
 import { Reviews } from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
-import { OfferPreview } from '../../mocks/offers';
+import { OfferPreview } from '../../types';
 import { MAX_OFFERS_PREVIEW } from '../../const';
 import { roundRating, getBigFirstLetter, getEnding } from '../../utils';
 import Header from '../../components/header/header';

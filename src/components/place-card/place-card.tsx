@@ -2,6 +2,13 @@ import { OfferPreview } from '../../types';
 import { Link } from 'react-router-dom';
 import { CardClass } from '../../types';
 import { roundRating, getBigFirstLetter } from '../../utils';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setOfferFavoriteStatusAction } from '../../store/api-actions';
+import { useState } from 'react';
+import browserHistory from '../../browser-history';
+import { AppRoute } from '../../const';
+import { fetchOffersAction } from '../../store/api-actions';
+
 
 export type PlaceCardProps = OfferPreview & {
   cardClass: CardClass;
@@ -26,6 +33,28 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
 
   const pathCard = `/offer/${id}`;
 
+  const dispatch = useAppDispatch();
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(isFavorite);
+  const favoriteStatus = `${+!isFavoriteOffer}`;
+
+  const favouriteButtonClickHandle = async (): Promise<void> => {
+    if (authorizationStatus !== 'AUTH') {
+      browserHistory.push(AppRoute.LoginPage);
+      return;
+    }
+
+    await dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
+    setFavoriteOffer((prevState) => !prevState);
+    // await dispatch(fetchOffersAction());
+
+    console.log(favoriteStatus);
+  };
+  ///
+
+  ///
   return (
     <article
       className={`${cardClass}__card card place-card`}
@@ -58,12 +87,11 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
             </span>
           </div>
           <button
-            className={
-              `place-card__bookmark-button ${isFavorite
-                ? 'place-card__bookmark-button--active'
-                : ''} button`
-            }
+            className={`place-card__bookmark-button ${isFavoriteOffer
+              ? 'place-card__bookmark-button--active'
+              : ''} button`}
             type='button'
+            onClick={favouriteButtonClickHandle}
           >
             <svg
               className='place-card__bookmark-icon'

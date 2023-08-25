@@ -1,9 +1,9 @@
 enum AppRoute {
-  MainPage= '/',
-  LoginPage= '/login',
-  FavouritesPage= '/favorites',
-  OfferPage= '/offer/:id',
-  NotFoundPage= '*',
+  MainPage = '/',
+  LoginPage = '/login',
+  FavouritesPage = '/favorites',
+  OfferPage = '/offer/:id',
+  NotFoundPage = '*',
 }
 
 enum AuthorizationStatus {
@@ -18,7 +18,8 @@ enum APIRoute {
   Logout = '/logout',
   Review = '/comments',
   Nearby = '/nearby',
-  Favourites = 'favorite'
+  Favourites = 'favorite',
+  Slash = '/',
 }
 
 // enum CityName {
@@ -30,7 +31,7 @@ enum APIRoute {
 //   Dusseldorf = 'Dusseldorf'
 // }
 
-const CityName = ['Paris','Cologne','Brussels','Amsterdam','Hamburg','Dusseldorf'];
+const CityName = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 
 enum SortingType {
@@ -51,6 +52,8 @@ const DEFAULT_RATING = 0;
 const MAX_OFFERS_PREVIEW = 3;
 const MAX_REVIEWS_COUNT = 10;
 
-export { AppRoute, AuthorizationStatus, APIRoute, MAX_RATING_STARS, MAX_LENGTH_COMMENT, MIN_LENGTH_COMMENT, DEFAULT_RATING,
-  MAX_OFFERS_PREVIEW, CityName, SortingType, AUTH_TOKEN_KEY_NAME, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE, MAX_REVIEWS_COUNT };
+export {
+  AppRoute, AuthorizationStatus, APIRoute, MAX_RATING_STARS, MAX_LENGTH_COMMENT, MIN_LENGTH_COMMENT, DEFAULT_RATING,
+  MAX_OFFERS_PREVIEW, CityName, SortingType, AUTH_TOKEN_KEY_NAME, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE, MAX_REVIEWS_COUNT
+};
 

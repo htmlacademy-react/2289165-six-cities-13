@@ -8,18 +8,24 @@ import PrivateRoute from '../private-route/private-route';
 import RedirectToMainPage from '../redirect-to-main-page/redirect-to-main-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { downloadOffers } from '../../store/action';
+import { downloadFavorites, downloadOffers } from '../../store/action';
 import LoadingPage from '../../pages/loading-page/loading-page';
 import browserHistory from '../../browser-history';
 import HistoryRouter from '../history-route/history-route';
+import { useEffect } from 'react';
 
 function App(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
   const dispatch = useAppDispatch();
   dispatch(downloadOffers);
-  // dispatch(getOffers());
-
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(downloadFavorites);
+    }
+  }, [authorizationStatus, dispatch]);
+
 
   const isLoading = useAppSelector((state) => state.isLoading);
   if (authorizationStatus === AuthorizationStatus.Unknown || isLoading) {

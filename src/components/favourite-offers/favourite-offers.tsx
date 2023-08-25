@@ -1,6 +1,7 @@
-import { FavouriteOffer } from '../../mocks/favourite.ts';
-import { OfferPreview } from '../../mocks/offers.ts';
+import { FavouriteOffer, OfferPreview } from '../../types.ts';
 import PlaceCard from '../place-card/place-card.tsx';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const.ts';
 
 type FavouriteOffersProps = {
   favouriteData: FavouriteOffer[];
@@ -38,12 +39,12 @@ function FavouriteOffers({ favouriteData }: FavouriteOffersProps): JSX.Element {
       >
         <div className="favorites__locations locations locations--current">
           <div className="locations__item">
-            <a
+            <Link
               className="locations__item-link"
-              href="#"
+              to={AppRoute.MainPage}
             >
               <span>{cityName}</span>
-            </a>
+            </Link>
           </div>
         </div>
         {placesList}
@@ -51,7 +52,7 @@ function FavouriteOffers({ favouriteData }: FavouriteOffersProps): JSX.Element {
     );
   });
 
-  if (favouriteData.length > 1) {
+  if (favouriteData.length >= 1) {
     return (
       <main className='page__main page__main--favorites'>
         <div className='page__favorites-container container'>
@@ -65,6 +66,7 @@ function FavouriteOffers({ favouriteData }: FavouriteOffersProps): JSX.Element {
       </main>
     );
   }
+
   return (
     <main className="page__main page__main--favorites page__main--favorites-empty">
       <div className="page__favorites-container container">

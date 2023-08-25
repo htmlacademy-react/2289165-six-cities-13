@@ -1,4 +1,4 @@
-import { OfferPreview } from '../../mocks/offers';
+import { OfferPreview } from '../../types';
 import Header from '../../components/header/header';
 import CitiesPlaces from '../../components/cities-places/cities-places';
 import { getOffersByCity } from '../../utils';

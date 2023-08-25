@@ -28,3 +28,5 @@ export const setUserInfo = createAction <User | null>('user/setUserInfo');
 export const downloadNearby = createAction<OfferPreview[]>('user/downloadNearby');
 
 export const downloadFavorites = createAction<FavouriteOffer[]>('data/downloadFavorites');
+
+export const setFavouriteStatus = createAction<boolean>('data/setFavouriteStatus');

@@ -12,21 +12,6 @@ import { AppRoute } from '../const';
 import { Review, User, ReviewToPost, AuthData, FavouriteOffer} from '../types';
 
 
-export const fetchOffersAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'data/fetchOffers',
-  async (_arg, { dispatch, extra: api }) => {
-
-    dispatch(setLoadingStatus(true));
-    const { data } = await api.get<OfferPreview[]>(APIRoute.Offers);
-    dispatch(downloadOffers(data));
-    dispatch(setLoadingStatus(false));
-  },
-);
-
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
@@ -75,6 +60,21 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   },
 );
 
+export const fetchOffersAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchOffers',
+  async (_arg, { dispatch, extra: api }) => {
+
+    dispatch(setLoadingStatus(true));
+    const { data } = await api.get<OfferPreview[]>(APIRoute.Offers);
+    dispatch(downloadOffers(data));
+    dispatch(setLoadingStatus(false));
+  },
+);
+
 export const fetchFullOfferAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: State;
@@ -85,38 +85,6 @@ export const fetchFullOfferAction = createAsyncThunk<void, string, {
     try {
       const { data } = await api.get<OfferFull>(`${APIRoute.Offers}/${id}`);
       dispatch(downloadFullOffer(data));
-    } catch {
-      dispatch(redirectToRoute(AppRoute.NotFoundPage));
-    }
-  },
-);
-
-export const fetchReviewsAction = createAsyncThunk<void, string, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'data/fetchReviews',
-  async (id, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<Review[]>(`${APIRoute.Review}/${id}`);
-      dispatch(downloadReviews(data));
-    } catch {
-      dispatch(redirectToRoute(AppRoute.NotFoundPage));
-    }
-  }
-);
-
-export const fetchNearbyAction = createAsyncThunk<void, string, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'data/fetchNearby',
-  async (id, { dispatch, extra: api }) => {
-    try {
-      const { data } = await api.get<OfferPreview[]>(`${APIRoute.Offers}/${id}${APIRoute.Nearby}`);
-      dispatch(downloadNearby(data));
     } catch {
       dispatch(redirectToRoute(AppRoute.NotFoundPage));
     }
@@ -135,6 +103,39 @@ export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
   },
 );
 
+export const setOfferFavoriteStatusAction = createAsyncThunk<OfferFull, {
+  id: string;
+  favoriteStatus: string;
+},
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }>(
+    'setOfferFavoriteStatus',
+    async ({ id, favoriteStatus }, { dispatch, extra: api }) => {
+      const { data } = await api.post<OfferFull>(APIRoute.Favourites + APIRoute.Slash + id.toString() + APIRoute.Slash + favoriteStatus);
+      dispatch(fetchFavoritesAction());
+      // dispatch(fetchOffersAction);
+      return data;
+    }
+  );
+
+export const fetchReviewsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchReviews',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<Review[]>(`${APIRoute.Review}/${id}`);
+      dispatch(downloadReviews(data));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFoundPage));
+    }
+  }
+);
 
 export const postReviewAction = createAsyncThunk<void, ReviewToPost, {
   dispatch: AppDispatch;
@@ -148,3 +149,18 @@ export const postReviewAction = createAsyncThunk<void, ReviewToPost, {
   },
 );
 
+export const fetchNearbyAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearby',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<OfferPreview[]>(`${APIRoute.Offers}/${id}${APIRoute.Nearby}`);
+      dispatch(downloadNearby(data));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFoundPage));
+    }
+  },
+);

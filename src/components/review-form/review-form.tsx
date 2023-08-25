@@ -2,6 +2,7 @@ import { useState, Fragment } from 'react';
 import { MIN_LENGTH_COMMENT, MAX_LENGTH_COMMENT, DEFAULT_RATING } from '../../const';
 import { useAppDispatch } from '../../hooks/index.ts';
 import { postReviewAction, fetchReviewsAction } from '../../store/api-actions.ts';
+import { getEnding } from '../../utils.ts';
 
 const ratingTitlesForStars: { [key: string]: number } = {
   'terribly': 1,
@@ -56,12 +57,12 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
           className="form__rating-input visually-hidden"
           name="rating"
           defaultValue={ratingStar}
-          id={`${ratingStar}-stars`}
+          id={`${ratingStar}-star${getEnding(ratingStar)}`}
           type="radio"
           required
         />
         <label
-          htmlFor={`${ratingStar}-stars`}
+          htmlFor={`${ratingStar}-star${getEnding(ratingStar)}`}
           className="reviews__rating-label form__rating-label"
           title={title}
           onClick={starClickHandle}

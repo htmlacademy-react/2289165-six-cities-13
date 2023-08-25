@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { OfferPreview, OfferFull, Review, User } from '../types.ts';
 import {
   changeCity, changeSortingType, downloadOffers, setLoadingStatus,
-  downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites
+  downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites, setFavouriteStatus
 } from './action.ts';
 import { AuthorizationStatus, SortingType, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE } from '../const.ts';
 import { requireAuthorization } from './action.ts';
@@ -20,6 +20,7 @@ type InitialState = {
   userInfo: User | null;
   nearby: OfferPreview[];
   favorites: FavoriteItem[];
+  isFavourite: boolean;
 }
 
 
@@ -34,6 +35,7 @@ const initialState: InitialState = {
   userInfo: null,
   nearby: [],
   favorites: [],
+  isFavourite: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -67,6 +69,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(downloadFavorites, (state, action) => {
       state.favorites = action.payload;
+    })
+    .addCase(setFavouriteStatus, (state, action) => {
+      state.isFavourite = action.payload;
     });
 
 
