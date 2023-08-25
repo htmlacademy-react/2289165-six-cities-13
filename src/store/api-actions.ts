@@ -6,10 +6,11 @@ import { OfferPreview, OfferFull } from '../mocks/offers';
 import { saveToken, dropToken } from '../services/token';
 import {
   requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
-  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo
+  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites
 } from './action';
 import { AppRoute } from '../const';
-import { Review, User, ReviewToPost } from '../mocks/review';
+import { Review, User, ReviewToPost} from '../mocks/review';
+import { FavouriteOffer } from '../mocks/favourite';
 
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -120,6 +121,18 @@ export const fetchNearbyAction = createAsyncThunk<void, string, {
     } catch {
       dispatch(redirectToRoute(AppRoute.NotFoundPage));
     }
+  },
+);
+
+export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchFavorites',
+  async (_arg, {dispatch, extra: api}) => {
+    const {data} = await api.get<FavouriteOffer[]>(APIRoute.Favourites);
+    dispatch(downloadFavorites(data));
   },
 );
 

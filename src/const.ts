@@ -26,6 +26,7 @@ enum APIRoute {
   Logout = '/logout',
   Review = '/comments',
   Nearby = '/nearby',
+  Favourites = 'favorite'
 }
 
 // enum CityName {

@@ -11,6 +11,7 @@ function Header(): JSX.Element {
 
   const userInfo = useAppSelector((state) => state.userInfo);
   const userAvatar = userInfo?.avatarUrl ? { backgroundImage: `url(${userInfo?.avatarUrl})`} : {};
+  const favoritesCount = useAppSelector((state) => state.favorites).length;
 
   const logoutClickHandle = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
@@ -34,7 +35,7 @@ function Header(): JSX.Element {
                   {isAuthorized &&
                     <>
                       <span className="header__user-name user__name">{userInfo?.email}</span>
-                      <span className="header__favorite-count">3</span>
+                      <span className="header__favorite-count">{favoritesCount}</span>
                     </>}
                 </Link>
               </li>

@@ -2,7 +2,7 @@ import { createReducer } from '@reduxjs/toolkit';
 import { OfferPreview, OfferFull } from '../mocks/offers';
 import {
   changeCity, changeSortingType, downloadOffers, setLoadingStatus,
-  downloadFullOffer, downloadReviews, setUserInfo, downloadNearby
+  downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites
 } from './action.ts';
 import { SortingType, AuthorizationStatus } from '../const.ts';
 import { requireAuthorization } from './action.ts';
@@ -11,6 +11,7 @@ import { Review, User } from '../mocks/review.ts';
 //to const
 const DEFAULT_SELECTED_CITY = 'Paris';
 const DEFAULT_SORT_TYPE = SortingType.Popular;
+export type FavoriteItem = OfferPreview
 
 type InitialState = {
   city: string;
@@ -22,6 +23,7 @@ type InitialState = {
   reviews: Review[];
   userInfo: User | null;
   nearby: OfferPreview[];
+  favorites: FavoriteItem[];
 }
 
 const initialState: InitialState = {
@@ -34,6 +36,7 @@ const initialState: InitialState = {
   reviews: [],
   userInfo: null,
   nearby: [],
+  favorites: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -67,6 +70,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserInfo, (state, action) => {
       state.userInfo = action.payload;
+    })
+    .addCase(downloadFavorites, (state, action) => {
+      state.favorites = action.payload;
     });
 
 

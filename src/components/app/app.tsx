@@ -7,19 +7,11 @@ import NotFoundPage from '../../pages/not-found-page/not-found-page';
 import PrivateRoute from '../private-route/private-route';
 import RedirectToMainPage from '../redirect-to-main-page/redirect-to-main-page';
 import { AppRoute, AuthorizationStatus } from '../../const';
-import { OfferPageData, OfferPreviewData } from '../../mocks/offers';
-import { reviews } from '../../mocks/review';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-// import { getOffers } from '../../store/action';
 import { downloadOffers } from '../../store/action';
 import LoadingPage from '../../pages/loading-page/loading-page';
 import browserHistory from '../../browser-history';
 import HistoryRouter from '../history-route/history-route';
-
-
-// type AppProps = {
-//   offers: OfferPreview[];
-// }
 
 function App(): JSX.Element {
   const offers = useAppSelector((state) => state.offers);
@@ -54,7 +46,7 @@ function App(): JSX.Element {
           path={AppRoute.FavouritesPage}
           element={
             <PrivateRoute authorizationStatus={authorizationStatus}>
-              <FavouritesPage favouriteData={offers}/>
+              <FavouritesPage />
             </PrivateRoute>
           }
         />

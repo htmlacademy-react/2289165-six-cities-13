@@ -3,6 +3,7 @@ import { SortingType } from '../const';
 import { OfferFull, OfferPreview } from '../mocks/offers';
 import { AuthorizationStatus, AppRoute } from '../const';
 import { Review, User } from '../mocks/review';
+import { FavouriteOffer } from '../mocks/favourite';
 
 export const changeCity = createAction('main-page/changeCity', (city: string) => ({
   payload: city
@@ -29,3 +30,5 @@ export const downloadReviews = createAction<Review[]>('data/downloadReviews');
 export const setUserInfo = createAction <User | null>('user/setUserInfo');
 
 export const downloadNearby = createAction<OfferPreview[]>('user/downloadNearby');
+
+export const downloadFavorites = createAction<FavouriteOffer[]>('data/downloadFavorites');
