@@ -1,15 +1,11 @@
 import {createAction} from '@reduxjs/toolkit';
 import { SortingType } from '../const';
-import { OfferFull, OfferPreview } from '../mocks/offers';
 import { AuthorizationStatus, AppRoute } from '../const';
-import { Review, User } from '../mocks/review';
-import { FavouriteOffer } from '../mocks/favourite';
+import { Review, User, OfferFull, OfferPreview, FavouriteOffer } from '../types';
 
 export const changeCity = createAction('main-page/changeCity', (city: string) => ({
   payload: city
 }));
-
-// export const getOffers = createAction('app/getOffers');//?
 
 export const changeSortingType = createAction('sorting/changeSortingType', (sortingType: SortingType) => ({
   payload: sortingType

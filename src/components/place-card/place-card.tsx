@@ -1,6 +1,6 @@
-import { OfferPreview } from '../../mocks/offers';
+import { OfferPreview } from '../../types';
 import { Link } from 'react-router-dom';
-import { CardClass } from '../offer-list/offer-list';
+import { CardClass } from '../../types';
 import { roundRating, getBigFirstLetter } from '../../utils';
 
 export type PlaceCardProps = OfferPreview & {

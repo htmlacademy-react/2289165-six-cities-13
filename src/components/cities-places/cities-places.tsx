@@ -1,9 +1,8 @@
-import { OfferPreview } from '../../mocks/offers.ts';
+import { OfferPreview, Location } from '../../types.ts';
 import OfferList from '../offer-list/offer-list.tsx';
 import Map from '../../components/map/map';
 import { useState } from 'react';
 import { getEnding } from '../../utils.ts';
-import { Location } from '../../mocks/offers.ts';
 import Sorting from '../sorting/sorting.tsx';
 
 type CitiesPLacesProps = {
@@ -11,7 +10,6 @@ type CitiesPLacesProps = {
   selectedCityLocation: Location;
   offersByCity: OfferPreview[];
 };
-
 
 function CitiesPlaces({ offersByCity, selectedCityByName, selectedCityLocation }: CitiesPLacesProps): JSX.Element {
   const offersCount = offersByCity.length;

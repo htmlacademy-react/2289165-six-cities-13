@@ -1,11 +1,3 @@
-// const AppRoute = {
-//   MainPage: '/',
-//   LoginPage: '/login',
-//   FavouritesPage: '/favorites',
-//   OfferPage: '/offer/:id',
-//   PageNotFound: '*',
-// } as const;
-
 enum AppRoute {
   MainPage= '/',
   LoginPage= '/login',
@@ -48,6 +40,9 @@ enum SortingType {
   TopRated = 'Top rated first'
 }
 
+const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
+const DEFAULT_SELECTED_CITY = 'Paris';
+const DEFAULT_SORT_TYPE = SortingType.Popular;
 
 const MAX_RATING_STARS = 5;
 const MIN_LENGTH_COMMENT = 50;
@@ -56,5 +51,5 @@ const DEFAULT_RATING = 0;
 const MAX_OFFERS_PREVIEW = 3;
 
 export { AppRoute, AuthorizationStatus, APIRoute, MAX_RATING_STARS, MAX_LENGTH_COMMENT, MIN_LENGTH_COMMENT, DEFAULT_RATING,
-  MAX_OFFERS_PREVIEW, CityName, SortingType };
+  MAX_OFFERS_PREVIEW, CityName, SortingType, AUTH_TOKEN_KEY_NAME, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE };
 

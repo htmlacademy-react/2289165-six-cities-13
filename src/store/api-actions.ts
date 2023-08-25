@@ -2,15 +2,14 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { State, AppDispatch } from '.';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { OfferPreview, OfferFull } from '../mocks/offers';
+import { OfferFull, OfferPreview } from '../types';
 import { saveToken, dropToken } from '../services/token';
 import {
   requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
   downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites
 } from './action';
 import { AppRoute } from '../const';
-import { Review, User, ReviewToPost} from '../mocks/review';
-import { FavouriteOffer } from '../mocks/favourite';
+import { Review, User, ReviewToPost, AuthData, FavouriteOffer} from '../types';
 
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
@@ -149,14 +148,3 @@ export const postReviewAction = createAsyncThunk<void, ReviewToPost, {
   },
 );
 
-export type AuthData = {
-  login: string;
-  password: string;
-};
-
-
-export type UserData = {
-  id: number;
-  email: string;
-  token: string;
-};

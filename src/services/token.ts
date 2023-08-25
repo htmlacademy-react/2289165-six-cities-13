@@ -1,5 +1,5 @@
-//to const
-const AUTH_TOKEN_KEY_NAME = 'guess-melody-token';
+import { AUTH_TOKEN_KEY_NAME } from '../const';
+
 
 export type Token = string;
 

@@ -1,8 +1,9 @@
 import { ReviewForm } from '../review-form/review-form';
 import { ReviewsItem } from '../reviews-item/reviews-item';
-import { Review } from '../../mocks/review';
+import { Review } from '../../types';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const';
+
 type ReviewsProps = {
   reviews: Review[];
   offerId: string;
