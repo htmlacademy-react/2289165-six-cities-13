@@ -9,7 +9,7 @@ import {
   downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites
 } from './action';
 import { AppRoute } from '../const';
-import { Review, User, ReviewToPost, AuthData, FavouriteOffer} from '../types';
+import { Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
 
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
@@ -22,7 +22,7 @@ export const checkAuthAction = createAsyncThunk<void, undefined, {
     try {
       const { data } = await api.get<User>(APIRoute.Login);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      dispatch(redirectToRoute(AppRoute.MainPage));
+      // dispatch(redirectToRoute(AppRoute.MainPage));
       dispatch(setUserInfo(data));
     } catch {
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
@@ -37,7 +37,7 @@ export const loginAction = createAsyncThunk<void, AuthData, {
 }>(
   'user/login',
   async ({ login: email, password }, { dispatch, extra: api }) => {
-    const {data} = await api.post<User>(APIRoute.Login, {email, password});
+    const { data } = await api.post<User>(APIRoute.Login, { email, password });
     saveToken(data.token);
     dispatch(requireAuthorization(AuthorizationStatus.Auth));
     dispatch(redirectToRoute(AppRoute.MainPage));
@@ -97,8 +97,8 @@ export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>(
   'data/fetchFavorites',
-  async (_arg, {dispatch, extra: api}) => {
-    const {data} = await api.get<FavouriteOffer[]>(APIRoute.Favourites);
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<FavouriteOffer[]>(APIRoute.Favourites);
     dispatch(downloadFavorites(data));
   },
 );
@@ -114,11 +114,12 @@ export const setOfferFavoriteStatusAction = createAsyncThunk<OfferFull, {
   }>(
     'setOfferFavoriteStatus',
     async ({ id, favoriteStatus }, { dispatch, extra: api }) => {
+
       const { data } = await api.post<OfferFull>(APIRoute.Favourites + APIRoute.Slash + id.toString() + APIRoute.Slash + favoriteStatus);
       dispatch(fetchFavoritesAction());
-      // dispatch(fetchOffersAction);
       return data;
     }
+
   );
 
 export const fetchReviewsAction = createAsyncThunk<void, string, {
@@ -143,8 +144,8 @@ export const postReviewAction = createAsyncThunk<void, ReviewToPost, {
   extra: AxiosInstance;
 }>(
   'data/postReview',
-  async ({comment, rating, offerId}, {dispatch, extra: api}) => {
-    await api.post<Review>(`${APIRoute.Review}/${offerId}`, {comment, rating});
+  async ({ comment, rating, offerId }, { dispatch, extra: api }) => {
+    await api.post<Review>(`${APIRoute.Review}/${offerId}`, { comment, rating });
     dispatch(fetchReviewsAction(offerId));
   },
 );

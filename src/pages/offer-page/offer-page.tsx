@@ -8,10 +8,8 @@ import Map from '../../components/map/map';
 import OfferList from '../../components/offer-list/offer-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, setOfferFavoriteStatusAction } from '../../store/api-actions';
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import NotFoundPage from '../not-found-page/not-found-page';
-import { useState } from 'react';
-
 
 type PageParams = {
   id: string;
@@ -41,6 +39,8 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
 
   if (!fullOffer) {
     return <NotFoundPage />;
+    console.log('нет оффера');
+
   }
 
   const {

@@ -26,7 +26,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
     isPremium,
     cardClass,
     cardMouseEnterHandle,
-    cardMouseLeaveHandle
+    cardMouseLeaveHandle,
   } = props;
 
   const pathCard = `/offer/${id}`;
@@ -38,15 +38,17 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(isFavorite);
   const favoriteStatus = `${+!isFavoriteOffer}`;
 
-  const favouriteButtonClickHandle = async (): Promise<void> => {
+  const favouriteButtonClickHandle = () => {
     if (authorizationStatus !== 'AUTH') {
       browserHistory.push(AppRoute.LoginPage);
       return;
     }
 
-    await dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
+    dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
     setFavoriteOffer((prevState) => !prevState);
-    // await dispatch(fetchOffersAction());
+
+    //обновляет элемент при втором срабатывании
+    // dispatch(fetchOffersAction());
 
     console.log(favoriteStatus);
   };
