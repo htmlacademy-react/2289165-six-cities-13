@@ -15,7 +15,6 @@ function Header(): JSX.Element {
   const userAvatar = userInfo?.avatarUrl ? { backgroundImage: `url(${userInfo?.avatarUrl})` } : {};
   const favoritesCount = useAppSelector((state) => state.favorites).length;
 
-
   const logoutClickHandle = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
     dispatch(logoutAction());
@@ -31,8 +30,7 @@ function Header(): JSX.Element {
             </Link>
 
 
-{/*
-            <a className='header__logo-link header__logo-link--active' href="#">
+            {/*<a className='header__logo-link header__logo-link--active' href="#">
               <img className='header__logo' src='img/logo.svg' alt='6 cities logo' width={81} height={41} />
             </a> */}
           </div>

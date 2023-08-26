@@ -7,9 +7,11 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OfferList from '../../components/offer-list/offer-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction } from '../../store/api-actions';
+import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, setOfferFavoriteStatusAction } from '../../store/api-actions';
 import { useEffect } from 'react';
 import NotFoundPage from '../not-found-page/not-found-page';
+import { useState } from 'react';
+
 
 type PageParams = {
   id: string;
@@ -23,11 +25,6 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
 
   const dispatch = useAppDispatch();
 
-  const fullOffer = useAppSelector((state) => state.fullOffer);
-  const reviews = useAppSelector((state) => state.reviews);
-  const nearby = useAppSelector((state) => state.nearby);
-
-
   const fullOfferId = String(useParams<PageParams>().id);
 
   useEffect(() => {
@@ -36,23 +33,19 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
     dispatch(fetchNearbyAction(fullOfferId));
   }, [dispatch, fullOfferId]);
 
+  const fullOffer = useAppSelector((state) => state.fullOffer);
+  const reviews = useAppSelector((state) => state.reviews);
+  const nearby = useAppSelector((state) => state.nearby);
+  const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(fullOffer ? fullOffer.isFavorite : false);
+
+
   if (!fullOffer) {
     return <NotFoundPage />;
   }
 
-  const nearbyOffers = nearby.slice(0, MAX_OFFERS_PREVIEW);
-
-  const selectedCityLocation = fullOffer.city.location;
-
-  const offerPreview = offers.find((offer) => offer.id === fullOfferId);
-
-  const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
-
-
   const {
     images,
     isPremium,
-    isFavorite,
     rating,
     title,
     type,
@@ -63,6 +56,23 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
     maxAdults,
     price,
   } = fullOffer;
+
+
+  const nearbyOffers = nearby.slice(0, MAX_OFFERS_PREVIEW);
+
+  const selectedCityLocation = fullOffer.city.location;
+
+  const offerPreview = offers.find((offer) => offer.id === fullOfferId);
+
+  const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
+
+  const favoriteStatus = `${+!isFavoriteOffer}`;
+  const id = fullOfferId;
+  const favouriteButtonClickHandle = () => {
+    dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
+    setFavoriteOffer((prevState) => !prevState);
+
+  };
 
 
   const offerImages = (
@@ -112,8 +122,9 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
                 <button
-                  className={`offer__bookmark-button button ${isFavorite ? 'offer__bookmark-button--active' : ''}`}
+                  className={`offer__bookmark-button button ${isFavoriteOffer ? 'offer__bookmark-button--active' : ''}`}
                   type="button"
+                  onClick={favouriteButtonClickHandle}
                 >
                   <svg
                     className="offer__bookmark-icon"

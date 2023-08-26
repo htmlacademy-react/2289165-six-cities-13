@@ -7,8 +7,6 @@ import { setOfferFavoriteStatusAction } from '../../store/api-actions';
 import { useState } from 'react';
 import browserHistory from '../../browser-history';
 import { AppRoute } from '../../const';
-import { fetchOffersAction } from '../../store/api-actions';
-
 
 export type PlaceCardProps = OfferPreview & {
   cardClass: CardClass;
