@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, setOfferFavoriteStatusAction } from '../../store/api-actions';
 import { useEffect,useState } from 'react';
 import NotFoundPage from '../not-found-page/not-found-page';
+import LoadingPage from '../loading-page/loading-page';
+
 
 type PageParams = {
   id: string;
@@ -29,6 +31,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
     dispatch(fetchFullOfferAction(fullOfferId));
     dispatch(fetchReviewsAction(fullOfferId));
     dispatch(fetchNearbyAction(fullOfferId));
+    console.log('useEffect');
   }, [dispatch, fullOfferId]);
 
   const fullOffer = useAppSelector((state) => state.fullOffer);
@@ -36,11 +39,13 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
   const nearby = useAppSelector((state) => state.nearby);
   const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(fullOffer ? fullOffer.isFavorite : false);
 
+  const isLoadingFullOffer = useAppSelector((state) => state.isLoadingFullOffer);
+  if (isLoadingFullOffer) {
+    return <LoadingPage />;
+  }
 
   if (!fullOffer) {
     return <NotFoundPage />;
-    console.log('нет оффера');
-
   }
 
   const {

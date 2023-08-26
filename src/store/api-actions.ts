@@ -6,7 +6,7 @@ import { OfferFull, OfferPreview } from '../types';
 import { saveToken, dropToken } from '../services/token';
 import {
   requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
-  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites
+  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites, setLoadingFullOfferStatus
 } from './action';
 import { AppRoute } from '../const';
 import { Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
@@ -87,6 +87,8 @@ export const fetchFullOfferAction = createAsyncThunk<void, string, {
       dispatch(downloadFullOffer(data));
     } catch {
       dispatch(redirectToRoute(AppRoute.NotFoundPage));
+    } finally {
+      dispatch(setLoadingFullOfferStatus(false));
     }
   },
 );
