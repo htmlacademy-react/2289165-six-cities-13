@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { CardClass } from '../../types';
 import { roundRating, getBigFirstLetter } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setOfferFavoriteStatusAction, fetchOffersAction } from '../../store/api-actions';
-import { useState } from 'react';
+import { setFavouriteStatus } from '../../store/api-actions';
+// import { useState } from 'react';
 import browserHistory from '../../browser-history';
 import { AppRoute } from '../../const';
 
@@ -35,8 +35,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(isFavorite);
-  const favoriteStatus = `${+!isFavoriteOffer}`;
+  // const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(isFavorite);
+  // const favoriteStatus = `${+!isFavoriteOffer}`;
 
   const favouriteButtonClickHandle = () => {
     if (authorizationStatus !== 'AUTH') {
@@ -44,13 +44,9 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
       return;
     }
 
-    dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
-    setFavoriteOffer((prevState) => !prevState);
+    dispatch(setFavouriteStatus({ id: id, isFavorite: isFavorite }));
 
-    //обновляет элемент при втором срабатывании
-    dispatch(fetchOffersAction());
-
-    // console.log(favoriteStatus);
+    // setFavoriteOffer((prevState) => !prevState);
   };
   ///
 
@@ -87,7 +83,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
             </span>
           </div>
           <button
-            className={`place-card__bookmark-button ${isFavoriteOffer
+            className={`place-card__bookmark-button ${isFavorite
               ? 'place-card__bookmark-button--active'
               : ''} button`}
             type='button'

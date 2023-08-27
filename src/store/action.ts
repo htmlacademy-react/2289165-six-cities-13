@@ -29,6 +29,6 @@ export const downloadNearby = createAction<OfferPreview[]>('user/downloadNearby'
 
 export const downloadFavorites = createAction<FavouriteOffer[]>('data/downloadFavorites');
 
-export const setFavouriteStatus = createAction<boolean>('data/setFavouriteStatus');
+export const setFavouriteStatus = createAction<OfferPreview>('data/setFavouriteStatus');
 
 export const setLoadingFullOfferStatus = createAction<boolean>('data/setLoadingFullOfferStatus');

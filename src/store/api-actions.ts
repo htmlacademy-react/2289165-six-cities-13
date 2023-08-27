@@ -6,7 +6,7 @@ import { OfferFull, OfferPreview } from '../types';
 import { saveToken, dropToken } from '../services/token';
 import {
   requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
-  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites, setLoadingFullOfferStatus
+  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites, setLoadingFullOfferStatus,
 } from './action';
 import { AppRoute } from '../const';
 import { Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
@@ -105,24 +105,6 @@ export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const setOfferFavoriteStatusAction = createAsyncThunk<OfferFull, {
-  id: string;
-  favoriteStatus: string;
-},
-  {
-    dispatch: AppDispatch;
-    state: State;
-    extra: AxiosInstance;
-  }>(
-    'setOfferFavoriteStatus',
-    async ({ id, favoriteStatus }, { dispatch, extra: api }) => {
-
-      const { data } = await api.post<OfferFull>(APIRoute.Favourites + APIRoute.Slash + id.toString() + APIRoute.Slash + favoriteStatus);
-      dispatch(fetchFavoritesAction());
-      return data;
-    }
-
-  );
 
 export const fetchReviewsAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
@@ -167,3 +149,32 @@ export const fetchNearbyAction = createAsyncThunk<void, string, {
     }
   },
 );
+
+export enum FavoriteStatus {
+  Add = 1,
+  Remove = 0,
+}
+
+export type FavoriteData = {
+  offerId: string;
+  status: FavoriteStatus;
+}
+//
+// export const setOfferFavoriteStatusAction = createAsyncThunk<OfferFull, {
+//   id: string;
+//   favoriteStatus: boolean;
+// },
+export const setFavouriteStatus = createAsyncThunk<{id: string; isFavorite: boolean }, OfferPreview,
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }>(
+    'setFavoriteStatus',
+    async ({ id, isFavorite }, { extra: api }) => {
+      const { data } = await api.post<OfferPreview>(`${APIRoute.Favourites}/${id}/${Number(!isFavorite)}`);
+      return data;
+    }
+
+  );
+
