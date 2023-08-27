@@ -1,4 +1,4 @@
-import { Review } from '../../mocks/review';
+import { Review } from '../../types';
 import { roundRating } from '../../utils';
 
 const dateTimeFormatInstance = new Intl.DateTimeFormat('en-US', {

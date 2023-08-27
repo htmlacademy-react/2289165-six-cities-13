@@ -1,24 +1,33 @@
-import { FavouriteOffer } from '../../mocks/favourite';
 import Header from '../../components/header/header';
 import FavouriteOffers from '../../components/favourite-offers/favourite-offers';
-import { AuthorizationStatus } from '../../const';
+import { useEffect } from 'react';
+import { fetchFavoritesAction } from '../../store/api-actions.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
+import { AppRoute } from '../../const';
+import { Link } from 'react-router-dom';
 
-type FavouriteProps = {
-  favouriteData: FavouriteOffer[];
-}
 
-function FavouritesPage({ favouriteData }: FavouriteProps): JSX.Element {
-  const classNameForEmptyPage = favouriteData.length < 1 ? 'page--favorites-empty' : '';
+function FavouritesPage(): JSX.Element {
+  const dispatch = useAppDispatch();
+
+  const favorites = useAppSelector((state) => state.favorites);
+
+  useEffect(() => {
+    dispatch(fetchFavoritesAction());
+  }, [dispatch]);
+
+
+  const classNameForEmptyPage = favorites.length < 1 ? 'page--favorites-empty' : '';
 
   return (
     <div className={`page ${classNameForEmptyPage}`}>
       <Header />
 
-      <FavouriteOffers favouriteData= {favouriteData}/>
+      <FavouriteOffers favouriteData= {favorites}/>
       <footer className='footer container'>
-        <a className='footer__logo-link' href='main.html'>
+        <Link className='footer__logo-link' to={AppRoute.MainPage}>
           <img className='footer__logo' src='img/logo.svg' alt='6 cities logo' width='64' height='33' />
-        </a>
+        </Link>
       </footer>
     </div>
   );

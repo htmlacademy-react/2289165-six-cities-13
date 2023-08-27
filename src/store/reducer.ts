@@ -1,14 +1,13 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { OfferPreview, OfferPreviewData } from '../mocks/offers';
-// import { CityName } from '../const.ts';
-// import { OfferPreview, offerPreviewList } from '../mocks/offer.ts';
-import { changeCity, changeSortingType, getOffers, downloadOffers, setLoadingStatus } from './action.ts';
-import { SortingType, AuthorizationStatus } from '../const.ts';
+import { OfferPreview, OfferFull, Review, User } from '../types.ts';
+import {
+  changeCity, changeSortingType, downloadOffers, setLoadingStatus,
+  downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites, setFavouriteStatus, setLoadingFullOfferStatus
+} from './action.ts';
+import { AuthorizationStatus, SortingType, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE } from '../const.ts';
 import { requireAuthorization } from './action.ts';
 
-//to const
-const DEFAULT_SELECTED_CITY = 'Paris';
-const DEFAULT_SORT_TYPE = SortingType.Popular;
+type FavoriteItem = OfferPreview
 
 type InitialState = {
   city: string;
@@ -16,23 +15,35 @@ type InitialState = {
   sortType: SortingType;
   isLoading: boolean;
   authorizationStatus: AuthorizationStatus;
+  fullOffer: OfferFull | null;
+  reviews: Review[];
+  userInfo: User | null;
+  nearby: OfferPreview[];
+  favorites: FavoriteItem[];
+  isFavourite: boolean;
+  isLoadingFullOffer: boolean;
 }
+
 
 const initialState: InitialState = {
   city: DEFAULT_SELECTED_CITY,
   offers: [],
   sortType: DEFAULT_SORT_TYPE,
   isLoading: false,
-  authorizationStatus: AuthorizationStatus.Unknown
+  authorizationStatus: AuthorizationStatus.Unknown,
+  fullOffer: null,
+  reviews: [],
+  userInfo: null,
+  nearby: [],
+  favorites: [],
+  isFavourite: false,
+  isLoadingFullOffer: true,
 };
 
 const reducer = createReducer(initialState, (builder) => {
   builder
     .addCase(changeCity, (state, action) => {
       state.city = action.payload;
-    })
-    .addCase(getOffers, (state) => {
-      state.offers = OfferPreviewData;
     })
     .addCase(changeSortingType, (state, action) => {
       state.sortType = action.payload;
@@ -45,7 +56,30 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(requireAuthorization, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(downloadFullOffer, (state, action) => {
+      state.fullOffer = action.payload;
+    })
+    .addCase(downloadReviews, (state, action) => {
+      state.reviews = action.payload;
+    })
+    .addCase(downloadNearby, (state, action) => {
+      state.nearby = action.payload;
+    })
+    .addCase(setUserInfo, (state, action) => {
+      state.userInfo = action.payload;
+    })
+    .addCase(downloadFavorites, (state, action) => {
+      state.favorites = action.payload;
+    })
+    .addCase(setFavouriteStatus, (state, action) => {
+      state.isFavourite = action.payload;
+    })
+    .addCase(setLoadingFullOfferStatus, (state, action) => {
+      state.isLoadingFullOffer = action.payload;
     });
+
+
 });
 
 export { reducer };

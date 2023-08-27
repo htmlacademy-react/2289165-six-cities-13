@@ -1,11 +1,12 @@
-import { OfferPreview } from '../../mocks/offers';
+import { OfferPreview } from '../../types';
 import Header from '../../components/header/header';
 import CitiesPlaces from '../../components/cities-places/cities-places';
-import { AuthorizationStatus } from '../../const';
 import { getOffersByCity } from '../../utils';
 import { useAppSelector } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { changeCity } from '../../store/action';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
 type MainPageProps = {
   offers: OfferPreview[];
@@ -94,42 +95,40 @@ function MainPage({ offers }: MainPageProps): JSX.Element {
   return (
     <div className='page page--gray page--main'>
       <Header />
-
       <main className='page__main page__main--index '>
         <h1 className='visually-hidden'>Cities</h1>
         <div className='tabs'>
           <section className='locations container'>
             <ul className='locations__list tabs__list'>
               <li className='locations__item'>
-                {/* <a className='locations__item-link tabs__item' href='#' title="Paris"> */}
-                <a className={`locations__item-link tabs__item ${selectedCity === 'Paris' ? 'tabs__item--active' : ''}`} href='#' title="Paris">
+                <Link className={`locations__item-link tabs__item ${selectedCity === 'Paris' ? 'tabs__item--active' : ''}`} to={AppRoute.MainPage}>
                   <span title="Paris" onClick={cityClickHandle}>Paris</span>
-                </a>
+                </Link>
               </li>
               <li className='locations__item'>
-                <a className={`locations__item-link tabs__item ${selectedCity === 'Cologne' ? 'tabs__item--active' : ''}`} href='#'>
+                <Link className={`locations__item-link tabs__item ${selectedCity === 'Cologne' ? 'tabs__item--active' : ''}`} to={AppRoute.MainPage}>
                   <span title="Cologne" onClick={cityClickHandle}>Cologne</span>
-                </a>
+                </Link>
               </li>
               <li className='locations__item'>
-                <a className={`locations__item-link tabs__item ${selectedCity === 'Brussels' ? 'tabs__item--active' : ''}`} href='#'>
+                <Link className={`locations__item-link tabs__item ${selectedCity === 'Brussels' ? 'tabs__item--active' : ''}`} to={AppRoute.MainPage}>
                   <span title="Brussels" onClick={cityClickHandle}>Brussels</span>
-                </a>
+                </Link>
               </li>
               <li className='locations__item'>
-                <a className={`locations__item-link tabs__item ${selectedCity === 'Amsterdam' ? 'tabs__item--active' : ''}`}>
+                <Link className={`locations__item-link tabs__item ${selectedCity === 'Amsterdam' ? 'tabs__item--active' : ''}`} to={AppRoute.MainPage}>
                   <span title="Amsterdam" onClick={cityClickHandle}>Amsterdam</span>
-                </a>
+                </Link>
               </li>
               <li className='locations__item'>
-                <a className={`locations__item-link tabs__item ${selectedCity === 'Hamburg' ? 'tabs__item--active' : ''}`} href='#'>
+                <Link className={`locations__item-link tabs__item ${selectedCity === 'Hamburg' ? 'tabs__item--active' : ''}`} to={AppRoute.MainPage}>
                   <span title="Hamburg" onClick={cityClickHandle}>Hamburg</span>
-                </a>
+                </Link>
               </li>
               <li className='locations__item'>
-                <a className={`locations__item-link tabs__item ${selectedCity === 'Dusseldorf' ? 'tabs__item--active' : ''}`} href='#'>
+                <Link className={`locations__item-link tabs__item ${selectedCity === 'Dusseldorf' ? 'tabs__item--active' : ''}`} to={AppRoute.MainPage}>
                   <span title="Dusseldorf" onClick={cityClickHandle}>Dusseldorf</span>
-                </a>
+                </Link>
               </li>
             </ul>
           </section>

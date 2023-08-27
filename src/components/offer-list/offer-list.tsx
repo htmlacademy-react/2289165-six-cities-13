@@ -1,9 +1,7 @@
 import PlaceCard from '../place-card/place-card.tsx';
-import { OfferPreview } from '../../mocks/offers.ts';
 import { useAppSelector } from '../../hooks/index.ts';
 import { sortOffers } from '../../utils.ts';
-
-export type CardClass = 'favorites' | 'cities' | 'near-places';
+import { CardClass, OfferPreview } from '../../types.ts';
 
 
 type OfferListProps = {

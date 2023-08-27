@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
-import { OfferPreviewData } from './mocks/offers';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { fetchOffersAction, checkAuthAction } from './store/api-actions';
+import { fetchOffersAction, checkAuthAction, fetchFavoritesAction } from './store/api-actions';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchOffersAction());
+store.dispatch(fetchFavoritesAction());
 store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(
@@ -19,9 +19,7 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
-      <App
-        offers={OfferPreviewData}
-      />
+      <App />
     </Provider>
   </React.StrictMode >
 );

@@ -4,6 +4,7 @@ import Header from '../../components/header/header';
 import { useRef } from 'react';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions';
+import { toast } from 'react-toastify';
 
 function LoginPage(): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
@@ -11,18 +12,32 @@ function LoginPage(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  const regForPassword = /(?=.*[a-zA-Zа-яёА-Я])(?=.*\d)[^\s]+$/;
+
+  const isPasswordValid = (password: string) => regForPassword.test(password);
+  const ERROR_MESSAGE = 'Пароль должен состоять минимум из одной буквы и цифры';
+
   const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    const login = loginRef.current;
-    const password = passwordRef.current;
+    const login = loginRef.current?.value;
+    const password = passwordRef.current?.value;
 
-    if (login !== null && password !== null) {
-      dispatch(loginAction({
-        login: login.value,
-        password: password.value
-      }));
+    if (!login || !password) {
+      return;
     }
+
+    if (!isPasswordValid(password)) {
+      toast.error(ERROR_MESSAGE);
+      return;
+    }
+
+    dispatch(loginAction({
+      login: login.trim(),
+      password: password.trim()
+    }));
+
   };
+
 
   return (
     <div className='page page--gray page--login'>

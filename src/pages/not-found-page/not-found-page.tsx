@@ -3,7 +3,7 @@ import Header from '../../components/header/header';
 
 function NotFoundPage(): JSX.Element {
   return (
-    <body>
+    <>
       <Header />
 
       <main className="page__not-found-page">
@@ -22,7 +22,7 @@ function NotFoundPage(): JSX.Element {
       <footer className="footer">
         <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
       </footer>
-    </body>
+    </>
   );
 }
 

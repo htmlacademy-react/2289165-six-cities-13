@@ -2,12 +2,63 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { State, AppDispatch } from '.';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { downloadOffers, setLoadingStatus } from './action';
-import { OfferPreview } from '../mocks/offers';
+import { OfferFull, OfferPreview } from '../types';
 import { saveToken, dropToken } from '../services/token';
-import { requireAuthorization, redirectToRoute } from './action';
+import {
+  requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
+  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites, setLoadingFullOfferStatus
+} from './action';
+import { AppRoute } from '../const';
+import { Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
 
 
+export const checkAuthAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/checkAuth',
+  async (_arg, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<User>(APIRoute.Login);
+      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      // dispatch(redirectToRoute(AppRoute.MainPage));
+      dispatch(setUserInfo(data));
+    } catch {
+      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    }
+  },
+);
+
+export const loginAction = createAsyncThunk<void, AuthData, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/login',
+  async ({ login: email, password }, { dispatch, extra: api }) => {
+    const { data } = await api.post<User>(APIRoute.Login, { email, password });
+    saveToken(data.token);
+    dispatch(requireAuthorization(AuthorizationStatus.Auth));
+    dispatch(redirectToRoute(AppRoute.MainPage));
+    dispatch(setUserInfo(data));
+  },
+);
+
+export const logoutAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'user/logout',
+  async (_arg, { dispatch, extra: api }) => {
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    await api.delete(APIRoute.Logout);
+    dropToken();
+    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    dispatch(setUserInfo(null));
+  },
+);
 
 export const fetchOffersAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -24,58 +75,95 @@ export const fetchOffersAction = createAsyncThunk<void, undefined, {
   },
 );
 
-export const checkAuthAction = createAsyncThunk<void, undefined, {
+export const fetchFullOfferAction = createAsyncThunk<void, string, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/checkAuth',
-  async (_arg, { dispatch, extra: api }) => {
+  'data/fetchFullOffer',
+  async (id, { dispatch, extra: api }) => {
     try {
-      await api.get(APIRoute.Login);
-      dispatch(requireAuthorization(AuthorizationStatus.Auth));
+      const { data } = await api.get<OfferFull>(`${APIRoute.Offers}/${id}`);
+      dispatch(downloadFullOffer(data));
     } catch {
-      dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+      dispatch(redirectToRoute(AppRoute.NotFoundPage));
+    } finally {
+      dispatch(setLoadingFullOfferStatus(false));
     }
   },
 );
 
-export const loginAction = createAsyncThunk<void, AuthData, {
+export const fetchFavoritesAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
   state: State;
   extra: AxiosInstance;
 }>(
-  'user/login',
-  async ({ login: email, password }, { dispatch, extra: api }) => {
-    const { data: { token } } = await api.post<UserData>(APIRoute.Login, { email, password });
-    saveToken(token);
-    dispatch(requireAuthorization(AuthorizationStatus.Auth));
-    dispatch(redirectToRoute(AppRoute.Main));
-  },
-);
-
-export const logoutAction = createAsyncThunk<void, undefined, {
-  dispatch: AppDispatch;
-  state: State;
-  extra: AxiosInstance;
-}>(
-  'user/logout',
+  'data/fetchFavorites',
   async (_arg, { dispatch, extra: api }) => {
-    await api.delete(APIRoute.Logout);
-    dropToken();
-    dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    const { data } = await api.get<FavouriteOffer[]>(APIRoute.Favourites);
+    dispatch(downloadFavorites(data));
   },
 );
 
+export const setOfferFavoriteStatusAction = createAsyncThunk<OfferFull, {
+  id: string;
+  favoriteStatus: string;
+},
+  {
+    dispatch: AppDispatch;
+    state: State;
+    extra: AxiosInstance;
+  }>(
+    'setOfferFavoriteStatus',
+    async ({ id, favoriteStatus }, { dispatch, extra: api }) => {
 
-export type AuthData = {
-  login: string;
-  password: string;
-};
+      const { data } = await api.post<OfferFull>(APIRoute.Favourites + APIRoute.Slash + id.toString() + APIRoute.Slash + favoriteStatus);
+      dispatch(fetchFavoritesAction());
+      return data;
+    }
 
+  );
 
-export type UserData = {
-  id: number;
-  email: string;
-  token: string;
-};
+export const fetchReviewsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchReviews',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<Review[]>(`${APIRoute.Review}/${id}`);
+      dispatch(downloadReviews(data));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFoundPage));
+    }
+  }
+);
+
+export const postReviewAction = createAsyncThunk<void, ReviewToPost, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/postReview',
+  async ({ comment, rating, offerId }, { dispatch, extra: api }) => {
+    await api.post<Review>(`${APIRoute.Review}/${offerId}`, { comment, rating });
+    dispatch(fetchReviewsAction(offerId));
+  },
+);
+
+export const fetchNearbyAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch;
+  state: State;
+  extra: AxiosInstance;
+}>(
+  'data/fetchNearby',
+  async (id, { dispatch, extra: api }) => {
+    try {
+      const { data } = await api.get<OfferPreview[]>(`${APIRoute.Offers}/${id}${APIRoute.Nearby}`);
+      dispatch(downloadNearby(data));
+    } catch {
+      dispatch(redirectToRoute(AppRoute.NotFoundPage));
+    }
+  },
+);
