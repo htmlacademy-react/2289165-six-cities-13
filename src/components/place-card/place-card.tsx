@@ -50,7 +50,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
     //обновляет элемент при втором срабатывании
     // dispatch(fetchOffersAction());
 
-    console.log(favoriteStatus);
+    // console.log(favoriteStatus);
   };
   ///
 

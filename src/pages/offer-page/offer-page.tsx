@@ -60,6 +60,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
     host,
     maxAdults,
     price,
+    isFavorite
   } = fullOffer;
 
 
@@ -71,7 +72,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
 
   const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
 
-  const favoriteStatus = `${+!isFavoriteOffer}`;
+  const favoriteStatus = `${+isFavoriteOffer}`;
   const id = fullOfferId;
   const favouriteButtonClickHandle = () => {
     dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
@@ -127,7 +128,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">{title}</h1>
                 <button
-                  className={`offer__bookmark-button button ${isFavoriteOffer ? 'offer__bookmark-button--active' : ''}`}
+                  className={`offer__bookmark-button button ${isFavorite ? 'offer__bookmark-button--active' : ''}`}
                   type="button"
                   onClick={favouriteButtonClickHandle}
                 >
