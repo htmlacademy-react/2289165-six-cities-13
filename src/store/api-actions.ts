@@ -6,11 +6,11 @@ import { OfferFull, OfferPreview } from '../types';
 import { saveToken, dropToken } from '../services/token';
 import {
   requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
-  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites, setLoadingFullOfferStatus,
+  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites, setLoadingFullOfferStatus, setFavouriteStatus,
 } from './action';
 import { AppRoute } from '../const';
 import { Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
-
+import { toast } from 'react-toastify';
 
 export const checkAuthAction = createAsyncThunk<void, undefined, {
   dispatch: AppDispatch;
@@ -164,17 +164,20 @@ export type FavoriteData = {
 //   id: string;
 //   favoriteStatus: boolean;
 // },
-export const setFavouriteStatus = createAsyncThunk<{id: string; isFavorite: boolean }, OfferPreview,
+export const postFavouritesStatus = createAsyncThunk<void, {id: string; isFavorite: boolean },
   {
     dispatch: AppDispatch;
     state: State;
     extra: AxiosInstance;
   }>(
-    'setFavoriteStatus',
-    async ({ id, isFavorite }, { extra: api }) => {
-      const { data } = await api.post<OfferPreview>(`${APIRoute.Favourites}/${id}/${Number(!isFavorite)}`);
-      return data;
+    'data/postFavouriteStatus',
+    async ({ id, isFavorite }, {dispatch, extra: api }) => {
+      try {
+        const {data} = await api.post<OfferPreview>(`${APIRoute.Favourites}/${String(id)}/${Number(!isFavorite)}`);
+        dispatch(setFavouriteStatus(data));
+      } catch {
+        toast.error('cannot set favourite status');
+      }
     }
-
   );
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { CardClass } from '../../types';
 import { roundRating, getBigFirstLetter } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setFavouriteStatus } from '../../store/api-actions';
+import { postFavouritesStatus } from '../../store/api-actions';
 // import { useState } from 'react';
 import browserHistory from '../../browser-history';
 import { AppRoute } from '../../const';
@@ -44,7 +44,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
       return;
     }
 
-    dispatch(setFavouriteStatus({ id: id, isFavorite: isFavorite }));
+    dispatch(postFavouritesStatus({ id: id, isFavorite: isFavorite }));
 
     // setFavoriteOffer((prevState) => !prevState);
   };

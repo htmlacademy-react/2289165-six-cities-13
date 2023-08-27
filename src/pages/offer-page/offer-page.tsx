@@ -7,8 +7,8 @@ import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OfferList from '../../components/offer-list/offer-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, setOfferFavoriteStatusAction } from '../../store/api-actions';
-import { useEffect,useState } from 'react';
+import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, postFavouritesStatus } from '../../store/api-actions';
+import { useEffect } from 'react';
 import NotFoundPage from '../not-found-page/not-found-page';
 import LoadingPage from '../loading-page/loading-page';
 
@@ -37,7 +37,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
   const fullOffer = useAppSelector((state) => state.fullOffer);
   const reviews = useAppSelector((state) => state.reviews);
   const nearby = useAppSelector((state) => state.nearby);
-  const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(fullOffer ? fullOffer.isFavorite : false);
+  // const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(fullOffer ? fullOffer.isFavorite : false);
 
   const isLoadingFullOffer = useAppSelector((state) => state.isLoadingFullOffer);
   if (isLoadingFullOffer) {
@@ -72,11 +72,11 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
 
   const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
 
-  const favoriteStatus = `${+isFavoriteOffer}`;
+  // const favoriteStatus = `${+isFavoriteOffer}`;
   const id = fullOfferId;
   const favouriteButtonClickHandle = () => {
-    dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
-    setFavoriteOffer((prevState) => !prevState);
+    dispatch(postFavouritesStatus({ id, isFavorite }));
+    // setFavoriteOffer((prevState) => !prevState);
 
   };
 

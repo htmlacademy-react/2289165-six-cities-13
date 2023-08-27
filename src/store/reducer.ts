@@ -78,7 +78,9 @@ const reducer = createReducer(initialState, (builder) => {
       const payloadOfferIndex = state.offers.findIndex((offer) => offer.id === payloadOffer.id);
       const payloadFavoriteOfferIndex = state.favorites.findIndex((offer) => offer.id === payloadOffer.id);
 
-      state.fullOffer = payloadOffer;
+      if (state.fullOffer) {
+        state.fullOffer.isFavorite = payloadOffer.isFavorite;
+      }
       state.offers[payloadOfferIndex] = payloadOffer;
 
       if (payloadOffer.isFavorite) {
