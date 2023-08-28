@@ -11,6 +11,8 @@ import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, postFavour
 import { useEffect } from 'react';
 import NotFoundPage from '../not-found-page/not-found-page';
 import LoadingPage from '../loading-page/loading-page';
+import { AppRoute } from '../../const';
+import browserHistory from '../../browser-history';
 
 
 type PageParams = {
@@ -24,6 +26,8 @@ type OfferPageProps = {
 function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
 
   const dispatch = useAppDispatch();
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const fullOfferId = String(useParams<PageParams>().id);
 
@@ -70,10 +74,13 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
   const offerPreview = offers.find((offer) => offer.id === fullOfferId);
 
   const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
-
   // const favoriteStatus = `${+isFavoriteOffer}`;
   const id = fullOfferId;
   const favouriteButtonClickHandle = () => {
+    if (authorizationStatus !== 'AUTH') {
+      browserHistory.push(AppRoute.LoginPage);
+      return;
+    }
     dispatch(postFavouritesStatus({ id, isFavorite }));
     // setFavoriteOffer((prevState) => !prevState);
 
@@ -181,7 +188,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
                   </p>
                 </div>
               </div>
-              <Reviews reviews={reviews} offerId={fullOfferId}/>
+              <Reviews reviews={reviews} offerId={fullOfferId} />
             </div>
           </div>
           <section className="offer__map map">

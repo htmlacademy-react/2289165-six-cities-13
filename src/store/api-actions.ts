@@ -6,7 +6,8 @@ import { OfferFull, OfferPreview } from '../types';
 import { saveToken, dropToken } from '../services/token';
 import {
   requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
-  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites, setLoadingFullOfferStatus, setFavouriteStatus, setReviewStatus
+  downloadFullOffer, downloadReviews, downloadNearby, setUserInfo, downloadFavorites,
+  setLoadingFullOfferStatus, setFavouriteStatus, setReviewStatus, setSendingReviewStatus
 } from './action';
 import { AppRoute } from '../const';
 import { Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
@@ -131,9 +132,11 @@ export const postReviewAction = createAsyncThunk<void, ReviewToPost, {
   'data/postReview',
   async ({ comment, rating, offerId }, { dispatch, extra: api }) => {
     try {
+      dispatch(setSendingReviewStatus(true));
       await api.post<Review>(`${APIRoute.Review}/${offerId}`, { comment, rating });
       dispatch(setReviewStatus(true));
       dispatch(fetchReviewsAction(offerId));
+      dispatch(setSendingReviewStatus(false));
     } catch (error) {
       dispatch(setReviewStatus(false));
       toast.error('Problem with sending commentary. Please, try later');

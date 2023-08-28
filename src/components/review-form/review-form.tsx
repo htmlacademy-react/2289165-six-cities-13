@@ -22,14 +22,14 @@ type ReviewFormProps = {
 function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
   const reviewStatus = useAppSelector((state) => state.isReviewSuccess);
-
+  const isSendingReview = useAppSelector((state) => state.isSendingReview);
 
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(DEFAULT_RATING);
 
   const isDisabled = !(comment.length >= MIN_LENGTH_COMMENT &&
-    comment.length <= MAX_LENGTH_COMMENT &&
-    rating !== DEFAULT_RATING);
+                       comment.length <= MAX_LENGTH_COMMENT &&
+                       rating !== DEFAULT_RATING);
 
   useEffect(() => {
     const resetFormHandle = () => {
@@ -48,8 +48,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
     dispatch(postReviewAction({ comment, rating, offerId }));
   };
 
-  const starClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
-    const newRating = ratingTitlesForStars[evt.currentTarget.title];
+  const starChangeHandle = (newRating: number) => {
     setRating(newRating);
   };
 
@@ -68,12 +67,14 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
           id={`${ratingStar}-star${getEnding(ratingStar)}`}
           type="radio"
           required
+          checked = {ratingStar === rating}
+          onChange={() => starChangeHandle(ratingStar)}
+          disabled={isSendingReview}
         />
         <label
           htmlFor={`${ratingStar}-star${getEnding(ratingStar)}`}
           className="reviews__rating-label form__rating-label"
           title={title}
-          onClick={starClickHandle}
         >
           <svg
             className="form__star-image"
@@ -120,7 +121,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isDisabled}
+          disabled={isDisabled || isSendingReview}
         >
           Submit
         </button>

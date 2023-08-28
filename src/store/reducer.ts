@@ -3,7 +3,7 @@ import { OfferPreview, OfferFull, Review, User } from '../types.ts';
 import {
   changeCity, changeSortingType, downloadOffers, setLoadingStatus,
   downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites, setLoadingFullOfferStatus,
-  setFavouriteStatus, setReviewStatus } from './action.ts';
+  setFavouriteStatus, setReviewStatus, setSendingReviewStatus } from './action.ts';
 import { AuthorizationStatus, SortingType, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE } from '../const.ts';
 import { requireAuthorization } from './action.ts';
 
@@ -24,6 +24,7 @@ type InitialState = {
   isFavourite: boolean;
   isLoadingFullOffer: boolean;
   isReviewSuccess: boolean;
+  isSendingReview: boolean;
 }
 
 
@@ -41,6 +42,7 @@ const initialState: InitialState = {
   isFavourite: false,
   isLoadingFullOffer: true,
   isReviewSuccess: false,
+  isSendingReview: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -96,9 +98,10 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setReviewStatus, (state, action) => {
       state.isReviewSuccess = action.payload;
+    })
+    .addCase(setSendingReviewStatus, (state, action) => {
+      state.isSendingReview = action.payload;
     });
-
-
 });
 
 export { reducer };

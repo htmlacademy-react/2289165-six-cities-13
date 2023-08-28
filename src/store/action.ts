@@ -34,3 +34,5 @@ export const setFavouriteStatus = createAction<OfferPreview>('data/setFavouriteS
 export const setLoadingFullOfferStatus = createAction<boolean>('data/setLoadingFullOfferStatus');
 
 export const setReviewStatus = createAction<boolean>('data/setReviewStatus');
+
+export const setSendingReviewStatus = createAction<boolean>('data/setSendingReviewStatus');
