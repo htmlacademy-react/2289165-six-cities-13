@@ -57,10 +57,9 @@ function LoginPage(): JSX.Element {
                 <label className='visually-hidden'>E-mail</label>
                 <input className='login__input form__input'
                   type='email'
-                  name='email'
+                  name="email"
                   placeholder='Email'
                   required
-                  defaultValue={'Oliver.conner@gmail.com'}
                   minLength={1}
                   ref={loginRef}
                 />
@@ -73,7 +72,6 @@ function LoginPage(): JSX.Element {
                   name='password'
                   placeholder='Password'
                   required
-                  defaultValue={'password1'}
                   minLength={1}
                   ref={passwordRef}
                 />

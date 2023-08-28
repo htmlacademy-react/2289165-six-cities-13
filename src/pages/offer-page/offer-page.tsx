@@ -31,7 +31,6 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
     dispatch(fetchFullOfferAction(fullOfferId));
     dispatch(fetchReviewsAction(fullOfferId));
     dispatch(fetchNearbyAction(fullOfferId));
-    console.log('useEffect');
   }, [dispatch, fullOfferId]);
 
   const fullOffer = useAppSelector((state) => state.fullOffer);
@@ -152,7 +151,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{getBigFirstLetter(type)}</li>
                 <li className="offer__feature offer__feature--bedrooms">{bedrooms} Bedroom{getEnding(bedrooms)}</li>
-                <li className="offer__feature offer__feature--adults">Max {maxAdults} Adult{getEnding(maxAdults)}</li>
+                <li className="offer__feature offer__feature--adults">Max {maxAdults} adult{getEnding(maxAdults)}</li>
               </ul>
               <div className="offer__price">
                 <b className="offer__price-value">€{price}</b>

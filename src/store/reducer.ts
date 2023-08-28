@@ -3,7 +3,7 @@ import { OfferPreview, OfferFull, Review, User } from '../types.ts';
 import {
   changeCity, changeSortingType, downloadOffers, setLoadingStatus,
   downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites, setLoadingFullOfferStatus,
-  setFavouriteStatus } from './action.ts';
+  setFavouriteStatus, setReviewStatus } from './action.ts';
 import { AuthorizationStatus, SortingType, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE } from '../const.ts';
 import { requireAuthorization } from './action.ts';
 
@@ -23,6 +23,7 @@ type InitialState = {
   favorites: FavoriteItem[];
   isFavourite: boolean;
   isLoadingFullOffer: boolean;
+  isReviewSuccess: boolean;
 }
 
 
@@ -39,6 +40,7 @@ const initialState: InitialState = {
   favorites: [],
   isFavourite: false,
   isLoadingFullOffer: true,
+  isReviewSuccess: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -88,35 +90,12 @@ const reducer = createReducer(initialState, (builder) => {
       } else {
         state.favorites.splice(payloadFavoriteOfferIndex, 1);
       }
-
-      /////////////////////////
-      // state.isFavourite = false;
-      // const {id} = action.payload;
-      // const offerIndex = state.offers.findIndex((offer) => offer.id === id);
-      // if (offerIndex !== -1) {
-      //   const offer = state.offers[offerIndex];
-      //   offer.isFavorite = !offer.isFavorite;
-      //   if (offer.isFavorite) {
-      //     state.favorites.push(offer);
-      //   } else {
-      //     state.favorites = state.favorites.filter((el) => el.id !== offer.id);
-      //   }
-      // }
-
-      // const offer = state.fullOffer;
-      // if (offer && offer.id === id) {
-      //   offer.isFavorite = !offer.isFavorite;
-      // }
-      // const nearbyOffers = state.nearby;
-      // const offerNearbyIndex = nearbyOffers.findIndex((el) => el.id === id);
-      // if (offerNearbyIndex !== -1) {
-      //   nearbyOffers[offerNearbyIndex].isFavorite = !nearbyOffers[offerNearbyIndex].isFavorite;
-      // }
-
-
     })
     .addCase(setLoadingFullOfferStatus, (state, action) => {
       state.isLoadingFullOffer = action.payload;
+    })
+    .addCase(setReviewStatus, (state, action) => {
+      state.isReviewSuccess = action.payload;
     });
 
 

@@ -1,8 +1,11 @@
 import { useState, Fragment } from 'react';
 import { MIN_LENGTH_COMMENT, MAX_LENGTH_COMMENT, DEFAULT_RATING } from '../../const';
-import { useAppDispatch } from '../../hooks/index.ts';
-import { postReviewAction, fetchReviewsAction } from '../../store/api-actions.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
+import { postReviewAction } from '../../store/api-actions.ts';
 import { getEnding } from '../../utils.ts';
+import { setReviewStatus } from '../../store/action.ts';
+import { useEffect } from 'react';
+
 
 const ratingTitlesForStars: { [key: string]: number } = {
   'terribly': 1,
@@ -16,14 +19,34 @@ type ReviewFormProps = {
   offerId: string;
 }
 
-function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const reviewStatus = useAppSelector((state) => state.isReviewSuccess);
+
 
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(DEFAULT_RATING);
-  let isDisabled = !(comment.length >= MIN_LENGTH_COMMENT &&
+
+  const isDisabled = !(comment.length >= MIN_LENGTH_COMMENT &&
     comment.length <= MAX_LENGTH_COMMENT &&
     rating !== DEFAULT_RATING);
+
+  useEffect(() => {
+    const resetFormHandle = () => {
+      setComment('');
+      setRating(DEFAULT_RATING);
+    };
+    if (reviewStatus === true) {
+      resetFormHandle();
+      dispatch(setReviewStatus(false));
+    }
+  }, [reviewStatus, dispatch]);
+
+
+  const formSubmitHandle = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(postReviewAction({ comment, rating, offerId }));
+  };
 
   const starClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
     const newRating = ratingTitlesForStars[evt.currentTarget.title];
@@ -34,21 +57,6 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     const { value } = evt.target;
     setComment(value);
   };
-
-  const resetFormHandle = (evt: React.FormEvent<HTMLFormElement>) => {
-    setComment('');
-    setRating(DEFAULT_RATING);
-    isDisabled = true;
-    evt.currentTarget.reset();
-  };
-
-  const formSubmitHandle = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    dispatch(postReviewAction({ comment, rating, offerId }));
-    dispatch(fetchReviewsAction(offerId));
-    resetFormHandle(evt);
-  };
-
 
   const ratingForm = (
     Object.entries(ratingTitlesForStars).map(([title, ratingStar]) => (
@@ -122,3 +130,20 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
 }
 
 export { ReviewForm };
+
+
+// const resetFormHandle = (evt: React.FormEvent<HTMLFormElement>) => {
+// const resetFormHandle = () => {
+//   setComment('12');
+//   setRating(DEFAULT_RATING);
+//   isDisabled = true;
+//   // evt.currentTarget.reset();
+// };
+
+
+// const resetFormHandle = () => {
+//   setComment('12');
+//   setRating(DEFAULT_RATING);
+//   // isDisabled = true;
+//   // evt.currentTarget.reset();
+// };

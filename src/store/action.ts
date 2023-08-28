@@ -32,3 +32,5 @@ export const downloadFavorites = createAction<FavouriteOffer[]>('data/downloadFa
 export const setFavouriteStatus = createAction<OfferPreview>('data/setFavouriteStatus');
 
 export const setLoadingFullOfferStatus = createAction<boolean>('data/setLoadingFullOfferStatus');
+
+export const setReviewStatus = createAction<boolean>('data/setReviewStatus');
