@@ -1,10 +1,8 @@
-import { OfferPreview } from '../../types';
+import { OfferPreview, CardClass } from '../../types';
 import { Link } from 'react-router-dom';
-import { CardClass } from '../../types';
 import { roundRating, getBigFirstLetter } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postFavouritesStatus } from '../../store/api-actions';
-// import { useState } from 'react';
 import browserHistory from '../../browser-history';
 import { AppRoute } from '../../const';
 
@@ -35,9 +33,6 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  // const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(isFavorite);
-  // const favoriteStatus = `${+!isFavoriteOffer}`;
-
   const favouriteButtonClickHandle = () => {
     if (authorizationStatus !== 'AUTH') {
       browserHistory.push(AppRoute.LoginPage);
@@ -45,12 +40,9 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
     }
 
     dispatch(postFavouritesStatus({ id: id, isFavorite: isFavorite }));
-
-    // setFavoriteOffer((prevState) => !prevState);
   };
-  ///
 
-  ///
+
   return (
     <article
       className={`${cardClass}__card card place-card`}

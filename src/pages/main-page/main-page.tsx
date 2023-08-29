@@ -13,13 +13,6 @@ type MainPageProps = {
 }
 
 function MainPage({ offers }: MainPageProps): JSX.Element {
-  // const classNameForEmptyPage = offers.length < 1 ? 'page__main--index-empty' : '';
-
-  // const [selectedCity, setSelectedCity] = useState<string>(DEFAULT_SELECTED_CITY);
-  // const cityClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
-  //   const value = evt.currentTarget.title;
-  //   setSelectedCity(value);
-  // };
 
   const dispatch = useDispatch();
   const cityClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) =>

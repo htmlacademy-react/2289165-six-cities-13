@@ -1,13 +1,11 @@
-import { useState, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { MIN_LENGTH_COMMENT, MAX_LENGTH_COMMENT, DEFAULT_RATING } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
 import { postReviewAction } from '../../store/api-actions.ts';
 import { getEnding } from '../../utils.ts';
 import { setReviewStatus } from '../../store/action.ts';
-import { useEffect } from 'react';
 
-
-const ratingTitlesForStars: { [key: string]: number } = {
+const RatingTitlesForStars: { [key: string]: number } = {
   'terribly': 1,
   'badly': 2,
   'not bad': 3,
@@ -36,7 +34,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
       setComment('');
       setRating(DEFAULT_RATING);
     };
-    if (reviewStatus === true) {
+    if (reviewStatus) {
       resetFormHandle();
       dispatch(setReviewStatus(false));
     }
@@ -58,7 +56,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   };
 
   const ratingForm = (
-    Object.entries(ratingTitlesForStars).map(([title, ratingStar]) => (
+    Object.entries(RatingTitlesForStars).map(([title, ratingStar]) => (
       <Fragment key={title}>
         <input
           className="form__rating-input visually-hidden"
@@ -131,20 +129,3 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
 }
 
 export { ReviewForm };
-
-
-// const resetFormHandle = (evt: React.FormEvent<HTMLFormElement>) => {
-// const resetFormHandle = () => {
-//   setComment('12');
-//   setRating(DEFAULT_RATING);
-//   isDisabled = true;
-//   // evt.currentTarget.reset();
-// };
-
-
-// const resetFormHandle = () => {
-//   setComment('12');
-//   setRating(DEFAULT_RATING);
-//   // isDisabled = true;
-//   // evt.currentTarget.reset();
-// };

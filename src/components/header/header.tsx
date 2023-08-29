@@ -28,11 +28,6 @@ function Header(): JSX.Element {
             <Link className='header__logo-link header__logo-link--active' to={AppRoute.MainPage}>
               <img className='header__logo' src='img/logo.svg' alt='6 cities logo' width={81} height={41} />
             </Link>
-
-
-            {/*<a className='header__logo-link header__logo-link--active' href="#">
-              <img className='header__logo' src='img/logo.svg' alt='6 cities logo' width={81} height={41} />
-            </a> */}
           </div>
           <nav className="header__nav">
             <ul className="header__nav-list">

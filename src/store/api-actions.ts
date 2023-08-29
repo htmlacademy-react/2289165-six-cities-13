@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { State, AppDispatch } from '.';
 import { APIRoute, AuthorizationStatus } from '../const';
-import { OfferFull, OfferPreview } from '../types';
+import { OfferFull, OfferPreview, Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
 import { saveToken, dropToken } from '../services/token';
 import {
   requireAuthorization, redirectToRoute, setLoadingStatus, downloadOffers,
@@ -10,7 +10,6 @@ import {
   setLoadingFullOfferStatus, setFavouriteStatus, setReviewStatus, setSendingReviewStatus
 } from './action';
 import { AppRoute } from '../const';
-import { Review, User, ReviewToPost, AuthData, FavouriteOffer } from '../types';
 import { toast } from 'react-toastify';
 
 
@@ -161,20 +160,6 @@ export const fetchNearbyAction = createAsyncThunk<void, string, {
   },
 );
 
-export enum FavoriteStatus {
-  Add = 1,
-  Remove = 0,
-}
-
-export type FavoriteData = {
-  offerId: string;
-  status: FavoriteStatus;
-}
-//
-// export const setOfferFavoriteStatusAction = createAsyncThunk<OfferFull, {
-//   id: string;
-//   favoriteStatus: boolean;
-// },
 export const postFavouritesStatus = createAsyncThunk<void, { id: string; isFavorite: boolean },
   {
     dispatch: AppDispatch;

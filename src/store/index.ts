@@ -10,7 +10,7 @@ export type AppDispatch = typeof store.dispatch;
 export const api = createAPI();
 
 export const store = configureStore({
-  reducer: reducer, //updateStore, {xx,xx,xx}
+  reducer: reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {

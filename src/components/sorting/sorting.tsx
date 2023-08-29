@@ -1,8 +1,7 @@
 import { SortingType } from '../../const';
 import { useState } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeSortingType } from '../../store/action';
-import { useAppDispatch } from '../../hooks';
 
 function Sorting(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
