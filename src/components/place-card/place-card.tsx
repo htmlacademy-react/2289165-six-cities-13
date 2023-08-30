@@ -1,17 +1,15 @@
-import { OfferPreview } from '../../types';
+import { OfferPreview, CardClass } from '../../types';
 import { Link } from 'react-router-dom';
-import { CardClass } from '../../types';
 import { roundRating, getBigFirstLetter } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setOfferFavoriteStatusAction, fetchOffersAction } from '../../store/api-actions';
-import { useState } from 'react';
+import { postFavouritesStatus } from '../../store/api-actions';
 import browserHistory from '../../browser-history';
 import { AppRoute } from '../../const';
 
 export type PlaceCardProps = OfferPreview & {
   cardClass: CardClass;
-  cardMouseEnterHandle?: (id: OfferPreview['id']) => void;
-  cardMouseLeaveHandle?: () => void;
+  onPlaceCardMouseEnter?: (id: OfferPreview['id']) => void;
+  onPlaceCardMouseLeave?: () => void;
 }
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
@@ -25,8 +23,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
     id,
     isPremium,
     cardClass,
-    cardMouseEnterHandle,
-    cardMouseLeaveHandle,
+    onPlaceCardMouseEnter: handlePlaceCardMouseEnter,
+    onPlaceCardMouseLeave: handlePlaceCardMouseLeave,
   } = props;
 
   const pathCard = `/offer/${id}`;
@@ -35,31 +33,21 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(isFavorite);
-  const favoriteStatus = `${+!isFavoriteOffer}`;
-
-  const favouriteButtonClickHandle = () => {
+  const handleFavouriteButtonClick = () => {
     if (authorizationStatus !== 'AUTH') {
       browserHistory.push(AppRoute.LoginPage);
       return;
     }
 
-    dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
-    setFavoriteOffer((prevState) => !prevState);
-
-    //обновляет элемент при втором срабатывании
-    dispatch(fetchOffersAction());
-
-    // console.log(favoriteStatus);
+    dispatch(postFavouritesStatus({ id: id, isFavorite: isFavorite }));
   };
-  ///
 
-  ///
+
   return (
     <article
       className={`${cardClass}__card card place-card`}
-      onMouseEnter={() => cardMouseEnterHandle?.(id)}
-      onMouseLeave={() => cardMouseLeaveHandle?.()}
+      onMouseEnter={() => handlePlaceCardMouseEnter?.(id)}
+      onMouseLeave={() => handlePlaceCardMouseLeave?.()}
     >
       {isPremium &&
         <div className='place-card__mark'>
@@ -87,11 +75,11 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
             </span>
           </div>
           <button
-            className={`place-card__bookmark-button ${isFavoriteOffer
+            className={`place-card__bookmark-button ${isFavorite
               ? 'place-card__bookmark-button--active'
               : ''} button`}
             type='button'
-            onClick={favouriteButtonClickHandle}
+            onClick={handleFavouriteButtonClick}
           >
             <svg
               className='place-card__bookmark-icon'

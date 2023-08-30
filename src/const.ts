@@ -22,18 +22,6 @@ enum APIRoute {
   Slash = '/',
 }
 
-// enum CityName {
-//   Paris = 'Paris',
-//   Cologne = 'Cologne',
-//   Brussels = 'Brussels',
-//   Amsterdam = 'Amsterdam',
-//   Hamburg = 'Hamburg',
-//   Dusseldorf = 'Dusseldorf'
-// }
-
-const CityName = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-
-
 enum SortingType {
   Popular = 'Popular',
   LowToHighPrice = 'Price: low to high',
@@ -52,8 +40,9 @@ const DEFAULT_RATING = 0;
 const MAX_OFFERS_PREVIEW = 3;
 const MAX_REVIEWS_COUNT = 10;
 
+
 export {
   AppRoute, AuthorizationStatus, APIRoute, MAX_RATING_STARS, MAX_LENGTH_COMMENT, MIN_LENGTH_COMMENT, DEFAULT_RATING,
-  MAX_OFFERS_PREVIEW, CityName, SortingType, AUTH_TOKEN_KEY_NAME, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE, MAX_REVIEWS_COUNT
+  MAX_OFFERS_PREVIEW, SortingType, AUTH_TOKEN_KEY_NAME, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE, MAX_REVIEWS_COUNT,
 };
 

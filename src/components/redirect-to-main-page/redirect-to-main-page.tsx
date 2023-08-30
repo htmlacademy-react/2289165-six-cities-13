@@ -1,5 +1,5 @@
-import {Navigate} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import { Navigate } from 'react-router-dom';
+import { AppRoute, AuthorizationStatus } from '../../const';
 
 type RedirectToMainPageProps = {
   authorizationStatus: AuthorizationStatus;
@@ -7,7 +7,7 @@ type RedirectToMainPageProps = {
 }
 
 function RedirectToMainPage(props: RedirectToMainPageProps): JSX.Element {
-  const {authorizationStatus, children} = props;
+  const { authorizationStatus, children } = props;
 
   return (
     authorizationStatus === AuthorizationStatus.NoAuth

@@ -1,5 +1,5 @@
-import {configureStore} from '@reduxjs/toolkit';
-import {reducer} from './reducer';
+import { configureStore } from '@reduxjs/toolkit';
+import { reducer } from './reducer';
 import { createAPI } from '../services/api';
 import { redirect } from './middlewares/redirect';
 
@@ -10,7 +10,7 @@ export type AppDispatch = typeof store.dispatch;
 export const api = createAPI();
 
 export const store = configureStore({
-  reducer: reducer, //updateStore, {xx,xx,xx}
+  reducer: reducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       thunk: {

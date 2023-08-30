@@ -1,16 +1,17 @@
 import { Reviews } from '../../components/reviews/reviews';
 import { useParams } from 'react-router-dom';
 import { OfferPreview } from '../../types';
-import { MAX_OFFERS_PREVIEW } from '../../const';
+import { MAX_OFFERS_PREVIEW, AppRoute } from '../../const';
 import { roundRating, getBigFirstLetter, getEnding } from '../../utils';
 import Header from '../../components/header/header';
 import Map from '../../components/map/map';
 import OfferList from '../../components/offer-list/offer-list';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, setOfferFavoriteStatusAction } from '../../store/api-actions';
-import { useEffect,useState } from 'react';
+import { fetchFullOfferAction, fetchNearbyAction, fetchReviewsAction, postFavouritesStatus } from '../../store/api-actions';
+import { useEffect } from 'react';
 import NotFoundPage from '../not-found-page/not-found-page';
 import LoadingPage from '../loading-page/loading-page';
+import browserHistory from '../../browser-history';
 
 
 type PageParams = {
@@ -25,19 +26,19 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
 
   const dispatch = useAppDispatch();
 
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
   const fullOfferId = String(useParams<PageParams>().id);
 
   useEffect(() => {
     dispatch(fetchFullOfferAction(fullOfferId));
     dispatch(fetchReviewsAction(fullOfferId));
     dispatch(fetchNearbyAction(fullOfferId));
-    console.log('useEffect');
   }, [dispatch, fullOfferId]);
 
   const fullOffer = useAppSelector((state) => state.fullOffer);
   const reviews = useAppSelector((state) => state.reviews);
   const nearby = useAppSelector((state) => state.nearby);
-  const [isFavoriteOffer, setFavoriteOffer] = useState<boolean>(fullOffer ? fullOffer.isFavorite : false);
 
   const isLoadingFullOffer = useAppSelector((state) => state.isLoadingFullOffer);
   if (isLoadingFullOffer) {
@@ -71,13 +72,14 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
   const offerPreview = offers.find((offer) => offer.id === fullOfferId);
 
   const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
-
-  const favoriteStatus = `${+isFavoriteOffer}`;
   const id = fullOfferId;
-  const favouriteButtonClickHandle = () => {
-    dispatch(setOfferFavoriteStatusAction({ id, favoriteStatus }));
-    setFavoriteOffer((prevState) => !prevState);
+  const handleFavouriteButtonClick = () => {
+    if (authorizationStatus !== 'AUTH') {
+      browserHistory.push(AppRoute.LoginPage);
+      return;
+    }
 
+    dispatch(postFavouritesStatus({ id, isFavorite }));
   };
 
 
@@ -130,7 +132,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
                 <button
                   className={`offer__bookmark-button button ${isFavorite ? 'offer__bookmark-button--active' : ''}`}
                   type="button"
-                  onClick={favouriteButtonClickHandle}
+                  onClick={handleFavouriteButtonClick}
                 >
                   <svg
                     className="offer__bookmark-icon"
@@ -152,7 +154,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
               <ul className="offer__features">
                 <li className="offer__feature offer__feature--entire">{getBigFirstLetter(type)}</li>
                 <li className="offer__feature offer__feature--bedrooms">{bedrooms} Bedroom{getEnding(bedrooms)}</li>
-                <li className="offer__feature offer__feature--adults">Max {maxAdults} Adult{getEnding(maxAdults)}</li>
+                <li className="offer__feature offer__feature--adults">Max {maxAdults} adult{getEnding(maxAdults)}</li>
               </ul>
               <div className="offer__price">
                 <b className="offer__price-value">€{price}</b>
@@ -182,7 +184,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
                   </p>
                 </div>
               </div>
-              <Reviews reviews={reviews} offerId={fullOfferId}/>
+              <Reviews reviews={reviews} offerId={fullOfferId} />
             </div>
           </div>
           <section className="offer__map map">

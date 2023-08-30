@@ -1,10 +1,11 @@
-import { useState, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { MIN_LENGTH_COMMENT, MAX_LENGTH_COMMENT, DEFAULT_RATING } from '../../const';
-import { useAppDispatch } from '../../hooks/index.ts';
-import { postReviewAction, fetchReviewsAction } from '../../store/api-actions.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/index.ts';
+import { postReviewAction } from '../../store/api-actions.ts';
 import { getEnding } from '../../utils.ts';
+import { setReviewStatus } from '../../store/action.ts';
 
-const ratingTitlesForStars: { [key: string]: number } = {
+const RatingTitlesForStars: { [key: string]: number } = {
   'terribly': 1,
   'badly': 2,
   'not bad': 3,
@@ -16,42 +17,46 @@ type ReviewFormProps = {
   offerId: string;
 }
 
-function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
+function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const dispatch = useAppDispatch();
+  const reviewStatus = useAppSelector((state) => state.isReviewSuccess);
+  const isSendingReview = useAppSelector((state) => state.isSendingReview);
 
   const [comment, setComment] = useState('');
   const [rating, setRating] = useState(DEFAULT_RATING);
-  let isDisabled = !(comment.length >= MIN_LENGTH_COMMENT &&
+
+  const isDisabled = !(comment.length >= MIN_LENGTH_COMMENT &&
     comment.length <= MAX_LENGTH_COMMENT &&
     rating !== DEFAULT_RATING);
 
-  const starClickHandle = (evt: React.MouseEvent<HTMLLabelElement, MouseEvent>) => {
-    const newRating = ratingTitlesForStars[evt.currentTarget.title];
+  useEffect(() => {
+    const handleFormReset = () => {
+      setComment('');
+      setRating(DEFAULT_RATING);
+    };
+    if (reviewStatus) {
+      handleFormReset();
+      dispatch(setReviewStatus(false));
+    }
+  }, [reviewStatus, dispatch]);
+
+
+  const handleFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    dispatch(postReviewAction({ comment, rating, offerId }));
+  };
+
+  const handleStarChange = (newRating: number) => {
     setRating(newRating);
   };
 
-  const formInputHandle = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleFormInput = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = evt.target;
     setComment(value);
   };
 
-  const resetFormHandle = (evt: React.FormEvent<HTMLFormElement>) => {
-    setComment('');
-    setRating(DEFAULT_RATING);
-    isDisabled = true;
-    evt.currentTarget.reset();
-  };
-
-  const formSubmitHandle = (evt: React.FormEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    dispatch(postReviewAction({ comment, rating, offerId }));
-    dispatch(fetchReviewsAction(offerId));
-    resetFormHandle(evt);
-  };
-
-
   const ratingForm = (
-    Object.entries(ratingTitlesForStars).map(([title, ratingStar]) => (
+    Object.entries(RatingTitlesForStars).map(([title, ratingStar]) => (
       <Fragment key={title}>
         <input
           className="form__rating-input visually-hidden"
@@ -60,12 +65,14 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
           id={`${ratingStar}-star${getEnding(ratingStar)}`}
           type="radio"
           required
+          checked={ratingStar === rating}
+          onChange={() => handleStarChange(ratingStar)}
+          disabled={isSendingReview}
         />
         <label
           htmlFor={`${ratingStar}-star${getEnding(ratingStar)}`}
           className="reviews__rating-label form__rating-label"
           title={title}
-          onClick={starClickHandle}
         >
           <svg
             className="form__star-image"
@@ -84,7 +91,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
     <form
       className="reviews__form form"
       action="#" method="post"
-      onSubmit={formSubmitHandle}
+      onSubmit={handleFormSubmit}
     >
       <label
         className="reviews__label form__label"
@@ -102,7 +109,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
-        onInput={formInputHandle}
+        onInput={handleFormInput}
       >
       </textarea>
       <div className="reviews__button-wrapper">
@@ -112,7 +119,7 @@ function ReviewForm({offerId}: ReviewFormProps): JSX.Element {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={isDisabled}
+          disabled={isDisabled || isSendingReview}
         >
           Submit
         </button>

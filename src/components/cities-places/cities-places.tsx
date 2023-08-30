@@ -14,14 +14,9 @@ type CitiesPLacesProps = {
 function CitiesPlaces({ offersByCity, selectedCityByName, selectedCityLocation }: CitiesPLacesProps): JSX.Element {
   const offersCount = offersByCity.length;
   const [selectedOfferId, setSelectedOfferId] = useState<OfferPreview['id']>('');
-  // const [selectedCity, setSelectedCity] = useState<OfferPreview['city']>(offers[0].city);
 
-  const cardMouseEnterHandle = (id: OfferPreview['id']) => setSelectedOfferId(id);
-  const cardMouseLeaveHandle = () => setSelectedOfferId('');
-
-  // if (offersCount > 1) {
-  // const selectedOffer = offers.find((offer) => offer.city.name === selectedCityByName);
-  // console.log(selectedOffer);
+  const handleCardMouseEnter = (id: OfferPreview['id']) => setSelectedOfferId(id);
+  const handleCardMouseLeave = () => setSelectedOfferId('');
 
   return (
     <div className='cities__places-container container'>
@@ -30,7 +25,7 @@ function CitiesPlaces({ offersByCity, selectedCityByName, selectedCityLocation }
         <b className='places__found'>{offersCount} place{getEnding(offersCount)} to stay in {selectedCityByName}</b>
         <Sorting />
         <div className='cities__places-list places__list tabs__content'>
-          <OfferList cardClass={'cities'} offers={offersByCity} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
+          <OfferList cardClass={'cities'} offers={offersByCity} handleCardMouseEnter={handleCardMouseEnter} handleCardMouseLeave={handleCardMouseLeave} />
         </div>
       </section>
       <div className='cities__right-section'>
@@ -40,20 +35,6 @@ function CitiesPlaces({ offersByCity, selectedCityByName, selectedCityLocation }
       </div>
     </div>
   );
-  // }
-
-  // return (
-  //   <div className="cities__places-container cities__places-container--empty container">
-  //     <section className="cities__no-places">
-  //       <div className="cities__status-wrapper tabs__content">
-  //         <b className="cities__status">No places to stay available</b>
-  //         <p className="cities__status-description">We could not find any property available at the moment in {selectedCityByName}</p>
-  //       </div>
-  //     </section>
-  //     <div className="cities__right-section">
-  //     </div>
-  //   </div>
-  // );
 }
 
 export default CitiesPlaces;

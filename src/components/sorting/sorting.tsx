@@ -1,8 +1,7 @@
 import { SortingType } from '../../const';
 import { useState } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { changeSortingType } from '../../store/action';
-import { useAppDispatch } from '../../hooks';
 
 function Sorting(): JSX.Element {
   const [isOpened, setIsOpened] = useState(false);
@@ -12,7 +11,7 @@ function Sorting(): JSX.Element {
   const sortingClickHandle = () => setIsOpened(!isOpened);
 
 
-  const sortTypeChangeHandle = (sortType: SortingType) => {
+  const handleSortTypeClick = (sortType: SortingType) => {
     dispatch(changeSortingType(sortType));
     setIsOpened(false);
   };
@@ -36,7 +35,7 @@ function Sorting(): JSX.Element {
             key={key}
             className={`places__option, ${key === value ? 'places__option--active' : ''}`}
             tabIndex={0}
-            onClick={() => sortTypeChangeHandle(value)}
+            onClick={() => handleSortTypeClick(value)}
           >
             {value}
           </li>
@@ -48,30 +47,3 @@ function Sorting(): JSX.Element {
 }
 
 export default Sorting;
-
-// return (
-//   <form className='places__sorting' action='#' method='get'>
-//     <span className='places__sorting-caption'>Sort by </span>
-//     <span className='places__sorting-type' tabIndex={0} onClick={sortingClickHandle}>
-//       Popular //{selectedSortType}
-//       <svg className='places__sorting-arrow' width={7} height={4}>
-//         <use xlinkHref='#icon-arrow-select'></use>
-//       </svg>
-//     </span>
-//     <ul className='places__options places__options--custom places__options--opened'>
-//       {Object.entries(SortingType).map(([key, value]) => (
-//         <li
-//           key={key}
-//           className={`places__option,
-//             ${ SortingType === value ? 'places__option--active' : ''}`}
-//           tabIndex={0}
-//           onClick={() => handleSortTypeChange(value)}
-//         >
-//           {value}
-//         </li>
-//       ))}
-//     </ul>
-//   </form>
-// )
-
-

@@ -17,7 +17,7 @@ function LoginPage(): JSX.Element {
   const isPasswordValid = (password: string) => regForPassword.test(password);
   const ERROR_MESSAGE = 'Пароль должен состоять минимум из одной буквы и цифры';
 
-  const handleSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     const login = loginRef.current?.value;
     const password = passwordRef.current?.value;
@@ -51,16 +51,15 @@ function LoginPage(): JSX.Element {
               className='login__form form'
               action='#'
               method='post'
-              onSubmit={handleSubmit}
+              onSubmit={handleFormSubmit}
             >
               <div className='login__input-wrapper form__input-wrapper'>
                 <label className='visually-hidden'>E-mail</label>
                 <input className='login__input form__input'
                   type='email'
-                  name='email'
+                  name="email"
                   placeholder='Email'
                   required
-                  defaultValue={'Oliver.conner@gmail.com'}
                   minLength={1}
                   ref={loginRef}
                 />
@@ -73,7 +72,6 @@ function LoginPage(): JSX.Element {
                   name='password'
                   placeholder='Password'
                   required
-                  defaultValue={'password1'}
                   minLength={1}
                   ref={passwordRef}
                 />

@@ -2,10 +2,12 @@ import { createReducer } from '@reduxjs/toolkit';
 import { OfferPreview, OfferFull, Review, User } from '../types.ts';
 import {
   changeCity, changeSortingType, downloadOffers, setLoadingStatus,
-  downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites, setFavouriteStatus, setLoadingFullOfferStatus
+  downloadFullOffer, downloadReviews, setUserInfo, downloadNearby, downloadFavorites, setLoadingFullOfferStatus,
+  setFavouriteStatus, setReviewStatus, setSendingReviewStatus
 } from './action.ts';
 import { AuthorizationStatus, SortingType, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE } from '../const.ts';
 import { requireAuthorization } from './action.ts';
+
 
 type FavoriteItem = OfferPreview
 
@@ -22,6 +24,8 @@ type InitialState = {
   favorites: FavoriteItem[];
   isFavourite: boolean;
   isLoadingFullOffer: boolean;
+  isReviewSuccess: boolean;
+  isSendingReview: boolean;
 }
 
 
@@ -38,6 +42,8 @@ const initialState: InitialState = {
   favorites: [],
   isFavourite: false,
   isLoadingFullOffer: true,
+  isReviewSuccess: false,
+  isSendingReview: false,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -73,13 +79,30 @@ const reducer = createReducer(initialState, (builder) => {
       state.favorites = action.payload;
     })
     .addCase(setFavouriteStatus, (state, action) => {
-      state.isFavourite = action.payload;
+      const payloadOffer = action.payload;
+      const payloadOfferIndex = state.offers.findIndex((offer) => offer.id === payloadOffer.id);
+      const payloadFavoriteOfferIndex = state.favorites.findIndex((offer) => offer.id === payloadOffer.id);
+
+      if (state.fullOffer) {
+        state.fullOffer.isFavorite = payloadOffer.isFavorite;
+      }
+      state.offers[payloadOfferIndex] = payloadOffer;
+
+      if (payloadOffer.isFavorite) {
+        state.favorites.push(payloadOffer);
+      } else {
+        state.favorites.splice(payloadFavoriteOfferIndex, 1);
+      }
     })
     .addCase(setLoadingFullOfferStatus, (state, action) => {
       state.isLoadingFullOffer = action.payload;
+    })
+    .addCase(setReviewStatus, (state, action) => {
+      state.isReviewSuccess = action.payload;
+    })
+    .addCase(setSendingReviewStatus, (state, action) => {
+      state.isSendingReview = action.payload;
     });
-
-
 });
 
 export { reducer };
