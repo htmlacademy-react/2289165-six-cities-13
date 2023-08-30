@@ -30,19 +30,19 @@ function Header(): JSX.Element {
             </Link>
           </div>
           <nav className="header__nav">
-            <ul className="header__nav-list">
-              <li className="header__nav-item user">
-                <Link className="header__nav-link header__nav-link--profile" to={isAuthorized ? AppRoute.FavouritesPage : AppRoute.LoginPage}>
-                  <div className="header__avatar-wrapper user__avatar-wrapper" style={{ ...userAvatar, borderRadius: '50%' }}></div>
-                  {isAuthorized &&
-                    <>
-                      <span className="header__user-name user__name">{userInfo?.email}</span>
-                      <span className="header__favorite-count">{favoritesCount}</span>
-                    </>}
-                </Link>
-              </li>
-              <li className="header__nav-item">
-                {isAuthorized ?
+            {isAuthorized ?
+              <ul className="header__nav-list">
+                <li className="header__nav-item user">
+                  <Link className="header__nav-link header__nav-link--profile" to={isAuthorized ? AppRoute.FavouritesPage : AppRoute.LoginPage}>
+                    <div className="header__avatar-wrapper user__avatar-wrapper" style={{ ...userAvatar, borderRadius: '50%' }}></div>
+                    {isAuthorized &&
+                      <>
+                        <span className="header__user-name user__name">{userInfo?.email}</span>
+                        <span className="header__favorite-count">{favoritesCount}</span>
+                      </>}
+                  </Link>
+                </li>
+                <li className="header__nav-item">
                   <Link
                     className="header__nav-link"
                     onClick={handleLogoutClick}
@@ -50,16 +50,20 @@ function Header(): JSX.Element {
                   >
                     <span className="header__signout">Sign out</span>
                   </Link>
-                  :
-                  <Link className="header__nav-link" to={AppRoute.LoginPage}>
+                </li>
+              </ul>
+              :
+              <ul className="header__nav-list">
+                <li className="header__nav-item">
+                  <Link className="header__nav-link header__nav-link--profile" to={AppRoute.LoginPage}>
                     <span className="header__login">Sign in</span>
-                  </Link>}
-              </li>
-            </ul>
+                  </Link>
+                </li>
+              </ul>}
           </nav>
         </div>
       </div>
-    </header>
+    </header >
   );
 }
 
