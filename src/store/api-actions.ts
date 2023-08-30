@@ -137,6 +137,7 @@ export const postReviewAction = createAsyncThunk<void, ReviewToPost, {
       dispatch(setSendingReviewStatus(false));
     } catch (error) {
       dispatch(setReviewStatus(false));
+      dispatch(setSendingReviewStatus(false));
       toast.error('Problem with sending commentary. Please, try later');
       throw error;
     }
