@@ -38,7 +38,7 @@ function App(): JSX.Element {
         <Route
           index
           path={AppRoute.MainPage}
-          element={<MainPage offers = {offers}/>}
+          element={<MainPage offers={offers} />}
         />
         <Route
           path={AppRoute.LoginPage}
@@ -58,7 +58,7 @@ function App(): JSX.Element {
         />
         <Route
           path={AppRoute.OfferPage}
-          element={<OfferPage offers={offers}/>}
+          element={<OfferPage offers={offers} />}
         />
         <Route
           path={AppRoute.NotFoundPage}

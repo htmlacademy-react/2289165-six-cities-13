@@ -26,31 +26,31 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
   const [rating, setRating] = useState(DEFAULT_RATING);
 
   const isDisabled = !(comment.length >= MIN_LENGTH_COMMENT &&
-                       comment.length <= MAX_LENGTH_COMMENT &&
-                       rating !== DEFAULT_RATING);
+    comment.length <= MAX_LENGTH_COMMENT &&
+    rating !== DEFAULT_RATING);
 
   useEffect(() => {
-    const resetFormHandle = () => {
+    const handleFormReset = () => {
       setComment('');
       setRating(DEFAULT_RATING);
     };
     if (reviewStatus) {
-      resetFormHandle();
+      handleFormReset();
       dispatch(setReviewStatus(false));
     }
   }, [reviewStatus, dispatch]);
 
 
-  const formSubmitHandle = (evt: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: React.FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
     dispatch(postReviewAction({ comment, rating, offerId }));
   };
 
-  const starChangeHandle = (newRating: number) => {
+  const handleStarChange = (newRating: number) => {
     setRating(newRating);
   };
 
-  const formInputHandle = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleFormInput = (evt: React.ChangeEvent<HTMLTextAreaElement>) => {
     const { value } = evt.target;
     setComment(value);
   };
@@ -65,8 +65,8 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
           id={`${ratingStar}-star${getEnding(ratingStar)}`}
           type="radio"
           required
-          checked = {ratingStar === rating}
-          onChange={() => starChangeHandle(ratingStar)}
+          checked={ratingStar === rating}
+          onChange={() => handleStarChange(ratingStar)}
           disabled={isSendingReview}
         />
         <label
@@ -91,7 +91,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
     <form
       className="reviews__form form"
       action="#" method="post"
-      onSubmit={formSubmitHandle}
+      onSubmit={handleFormSubmit}
     >
       <label
         className="reviews__label form__label"
@@ -109,7 +109,7 @@ function ReviewForm({ offerId }: ReviewFormProps): JSX.Element {
         name="review"
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
-        onInput={formInputHandle}
+        onInput={handleFormInput}
       >
       </textarea>
       <div className="reviews__button-wrapper">

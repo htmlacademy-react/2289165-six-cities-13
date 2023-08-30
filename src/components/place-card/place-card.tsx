@@ -8,8 +8,8 @@ import { AppRoute } from '../../const';
 
 export type PlaceCardProps = OfferPreview & {
   cardClass: CardClass;
-  cardMouseEnterHandle?: (id: OfferPreview['id']) => void;
-  cardMouseLeaveHandle?: () => void;
+  onPlaceCardMouseEnter?: (id: OfferPreview['id']) => void;
+  onPlaceCardMouseLeave?: () => void;
 }
 
 function PlaceCard(props: PlaceCardProps): JSX.Element {
@@ -23,8 +23,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
     id,
     isPremium,
     cardClass,
-    cardMouseEnterHandle,
-    cardMouseLeaveHandle,
+    onPlaceCardMouseEnter: handlePlaceCardMouseEnter,
+    onPlaceCardMouseLeave: handlePlaceCardMouseLeave,
   } = props;
 
   const pathCard = `/offer/${id}`;
@@ -33,7 +33,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
-  const favouriteButtonClickHandle = () => {
+  const handleFavouriteButtonClick = () => {
     if (authorizationStatus !== 'AUTH') {
       browserHistory.push(AppRoute.LoginPage);
       return;
@@ -46,8 +46,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
   return (
     <article
       className={`${cardClass}__card card place-card`}
-      onMouseEnter={() => cardMouseEnterHandle?.(id)}
-      onMouseLeave={() => cardMouseLeaveHandle?.()}
+      onMouseEnter={() => handlePlaceCardMouseEnter?.(id)}
+      onMouseLeave={() => handlePlaceCardMouseLeave?.()}
     >
       {isPremium &&
         <div className='place-card__mark'>
@@ -79,7 +79,7 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
               ? 'place-card__bookmark-button--active'
               : ''} button`}
             type='button'
-            onClick={favouriteButtonClickHandle}
+            onClick={handleFavouriteButtonClick}
           >
             <svg
               className='place-card__bookmark-icon'

@@ -15,7 +15,7 @@ function Header(): JSX.Element {
   const userAvatar = userInfo?.avatarUrl ? { backgroundImage: `url(${userInfo?.avatarUrl})` } : {};
   const favoritesCount = useAppSelector((state) => state.favorites).length;
 
-  const logoutClickHandle = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+  const handleLogoutClick = (evt: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     evt.preventDefault();
     dispatch(logoutAction());
   };
@@ -45,7 +45,7 @@ function Header(): JSX.Element {
                 {isAuthorized ?
                   <Link
                     className="header__nav-link"
-                    onClick={logoutClickHandle}
+                    onClick={handleLogoutClick}
                     to={AppRoute.MainPage}
                   >
                     <span className="header__signout">Sign out</span>

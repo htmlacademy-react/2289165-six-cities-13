@@ -22,9 +22,6 @@ enum APIRoute {
   Slash = '/',
 }
 
-// const сityNames = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
-
-
 enum SortingType {
   Popular = 'Popular',
   LowToHighPrice = 'Price: low to high',

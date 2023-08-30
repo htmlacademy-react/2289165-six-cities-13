@@ -1,4 +1,4 @@
-import {createAction} from '@reduxjs/toolkit';
+import { createAction } from '@reduxjs/toolkit';
 import { SortingType } from '../const';
 import { AuthorizationStatus, AppRoute } from '../const';
 import { Review, User, OfferFull, OfferPreview, FavouriteOffer } from '../types';
@@ -19,11 +19,11 @@ export const requireAuthorization = createAction<AuthorizationStatus>('user/requ
 
 export const redirectToRoute = createAction<AppRoute>('app/redirectToRoute');
 
-export const downloadFullOffer = createAction<OfferFull| null>('data/downloadFullOffer');
+export const downloadFullOffer = createAction<OfferFull | null>('data/downloadFullOffer');
 
 export const downloadReviews = createAction<Review[]>('data/downloadReviews');
 
-export const setUserInfo = createAction <User | null>('user/setUserInfo');
+export const setUserInfo = createAction<User | null>('user/setUserInfo');
 
 export const downloadNearby = createAction<OfferPreview[]>('user/downloadNearby');
 

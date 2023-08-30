@@ -7,11 +7,11 @@ import { CardClass, OfferPreview } from '../../types.ts';
 type OfferListProps = {
   cardClass: CardClass;
   offers: OfferPreview[];
-  cardMouseEnterHandle?: (id: OfferPreview['id']) => void;
-  cardMouseLeaveHandle?: () => void;
+  handleCardMouseEnter?: (id: OfferPreview['id']) => void;
+  handleCardMouseLeave?: () => void;
 };
 
-function OfferList({ cardClass, offers, cardMouseEnterHandle, cardMouseLeaveHandle }: OfferListProps): JSX.Element {
+function OfferList({ cardClass, offers, handleCardMouseEnter, handleCardMouseLeave }: OfferListProps): JSX.Element {
   const selectedSortType = useAppSelector((state) => state.sortType);
   const sortedOffers = sortOffers(offers, selectedSortType);
 
@@ -19,9 +19,9 @@ function OfferList({ cardClass, offers, cardMouseEnterHandle, cardMouseLeaveHand
     <>
       {sortedOffers.map((item) => (
         <PlaceCard
-          key= {item.id} cardClass={cardClass} {...item}
-          cardMouseEnterHandle={cardMouseEnterHandle}
-          cardMouseLeaveHandle={cardMouseLeaveHandle}
+          key={item.id} cardClass={cardClass} {...item}
+          onPlaceCardMouseEnter={handleCardMouseEnter}
+          onPlaceCardMouseLeave={handleCardMouseLeave}
         />
       ))}
     </>

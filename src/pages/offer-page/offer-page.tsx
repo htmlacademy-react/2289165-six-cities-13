@@ -73,7 +73,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
 
   const nearbyOnMap = offerPreview ? [offerPreview, ...nearbyOffers] : nearbyOffers;
   const id = fullOfferId;
-  const favouriteButtonClickHandle = () => {
+  const handleFavouriteButtonClick = () => {
     if (authorizationStatus !== 'AUTH') {
       browserHistory.push(AppRoute.LoginPage);
       return;
@@ -132,7 +132,7 @@ function OfferPage({ offers }: OfferPageProps): JSX.Element | null {
                 <button
                   className={`offer__bookmark-button button ${isFavorite ? 'offer__bookmark-button--active' : ''}`}
                   type="button"
-                  onClick={favouriteButtonClickHandle}
+                  onClick={handleFavouriteButtonClick}
                 >
                   <svg
                     className="offer__bookmark-icon"

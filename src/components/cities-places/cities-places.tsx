@@ -15,8 +15,8 @@ function CitiesPlaces({ offersByCity, selectedCityByName, selectedCityLocation }
   const offersCount = offersByCity.length;
   const [selectedOfferId, setSelectedOfferId] = useState<OfferPreview['id']>('');
 
-  const cardMouseEnterHandle = (id: OfferPreview['id']) => setSelectedOfferId(id);
-  const cardMouseLeaveHandle = () => setSelectedOfferId('');
+  const handleCardMouseEnter = (id: OfferPreview['id']) => setSelectedOfferId(id);
+  const handleCardMouseLeave = () => setSelectedOfferId('');
 
   return (
     <div className='cities__places-container container'>
@@ -25,7 +25,7 @@ function CitiesPlaces({ offersByCity, selectedCityByName, selectedCityLocation }
         <b className='places__found'>{offersCount} place{getEnding(offersCount)} to stay in {selectedCityByName}</b>
         <Sorting />
         <div className='cities__places-list places__list tabs__content'>
-          <OfferList cardClass={'cities'} offers={offersByCity} cardMouseEnterHandle={cardMouseEnterHandle} cardMouseLeaveHandle={cardMouseLeaveHandle} />
+          <OfferList cardClass={'cities'} offers={offersByCity} handleCardMouseEnter={handleCardMouseEnter} handleCardMouseLeave={handleCardMouseLeave} />
         </div>
       </section>
       <div className='cities__right-section'>
