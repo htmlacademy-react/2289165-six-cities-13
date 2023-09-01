@@ -29,6 +29,13 @@ enum SortingType {
   TopRated = 'Top rated first'
 }
 
+enum CardPlaceProportion {
+  WidthCitiesAndNearPlaces = 260,
+  WidthFavorites = 150,
+  HeightCitiesAndNearPlaces = 200,
+  HeightFavorites = 110,
+}
+
 const AUTH_TOKEN_KEY_NAME = 'six-cities-token';
 const DEFAULT_SELECTED_CITY = 'Paris';
 const DEFAULT_SORT_TYPE = SortingType.Popular;
@@ -44,5 +51,6 @@ const MAX_REVIEWS_COUNT = 10;
 export {
   AppRoute, AuthorizationStatus, APIRoute, MAX_RATING_STARS, MAX_LENGTH_COMMENT, MIN_LENGTH_COMMENT, DEFAULT_RATING,
   MAX_OFFERS_PREVIEW, SortingType, AUTH_TOKEN_KEY_NAME, DEFAULT_SELECTED_CITY, DEFAULT_SORT_TYPE, MAX_REVIEWS_COUNT,
+  CardPlaceProportion
 };
 

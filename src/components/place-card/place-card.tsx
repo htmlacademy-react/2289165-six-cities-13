@@ -4,7 +4,7 @@ import { roundRating, getBigFirstLetter } from '../../utils';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postFavouritesStatus } from '../../store/api-actions';
 import browserHistory from '../../browser-history';
-import { AppRoute } from '../../const';
+import { AppRoute, CardPlaceProportion } from '../../const';
 
 export type PlaceCardProps = OfferPreview & {
   cardClass: CardClass;
@@ -58,8 +58,8 @@ function PlaceCard(props: PlaceCardProps): JSX.Element {
           <img
             className='place-card__image'
             src={previewImage}
-            width={cardClass === 'favorites' ? 150 : 260}
-            height={cardClass === 'favorites' ? 110 : 200}
+            width={cardClass === 'favorites' ? CardPlaceProportion.WidthFavorites : CardPlaceProportion.WidthCitiesAndNearPlaces}
+            height={cardClass === 'favorites' ? CardPlaceProportion.HeightFavorites : CardPlaceProportion.HeightCitiesAndNearPlaces}
             alt='Place image'
           />
         </Link>

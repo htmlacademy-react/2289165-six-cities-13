@@ -31,12 +31,6 @@ export type AuthData = {
   password: string;
 };
 
-export type UserData = {
-  id: number;
-  email: string;
-  token: string;
-};
-
 export type Location = {
   latitude: number;
   longitude: number;
