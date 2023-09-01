@@ -33,7 +33,7 @@ function Sorting(): JSX.Element {
         {Object.entries(SortingType).map(([key, value]) => (
           <li
             key={key}
-            className={`places__option, ${key === value ? 'places__option--active' : ''}`}
+            className={`places__option ${value === selectedSortType ? 'places__option--active' : ''}`}
             tabIndex={0}
             onClick={() => handleSortTypeClick(value)}
           >
